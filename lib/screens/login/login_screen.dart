@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/helper/validators.dart';
+import 'package:loja_virtual/models/user.dart';
+import 'package:loja_virtual/models/user_manager.dart';
+import 'package:provider/src/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,7 +12,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   validator: (email) {
-                    if(!emailValid(email!)) return 'E-mail inválido';
+                    if (!emailValid(email!)) return 'E-mail inválido';
                     return null;
                   },
                 ),
@@ -71,8 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 44,
                   child: RaisedButton(
                     onPressed: () {
-                      if(formKey.currentState!.validate()) {
-
+                      if (formKey.currentState!.validate()) {
+                        context.read<UserManager>().signIn(
+                              UserModel(
+                                  email: emailController.text,
+                                  password: passController.text),
+                            );
                       }
                     },
                     color: Theme.of(context).primaryColor,
