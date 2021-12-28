@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:loja_virtual/screens/base/base_screen.dart';
@@ -20,7 +19,10 @@ class MyApp extends StatelessWidget {
       title: 'Loja do Henrick',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: const Color.fromARGB(255, 4, 125, 141),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 4, 125, 141),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: const AppBarTheme(elevation: 0, color: Color.fromARGB(255, 4, 125, 141)),
       ),
       home: BaseScreen(),
     );
