@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/helper/validators.dart';
 import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/models/user_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,12 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
             key: formKey,
-            child: ListView(
+            child: Consumer<UserManager>(builder: (_, userManager, __) {
+              return ListView(
               padding: const EdgeInsets.all(16),
               shrinkWrap: true,
               children: [
                 TextFormField(
                   controller: emailController,
+                  enabled: !userManager.loading,
                   decoration: const InputDecoration(hintText: 'E-mail'),
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
@@ -50,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextFormField(
                   controller: passController,
+                  enabled: !userManager.loading,
                   decoration: const InputDecoration(hintText: 'Senha'),
                   autocorrect: false,
                   obscureText: true,
@@ -74,9 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 44,
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: userManager.loading ? null : () {
                       if (formKey.currentState!.validate()) {
-                        context.read<UserManager>().signIn(
+                        userManager.signIn(
                             user: UserModel(
                                 email: emailController.text,
                                 password: passController.text),
@@ -92,15 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     },
                     color: Theme.of(context).primaryColor,
+                    disabledColor: Theme.of(context).primaryColor.withAlpha(100),
                     textColor: Colors.white,
-                    child: const Text(
+                    child: userManager.loading ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),) : const Text(
                       "Entrar",
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
                 ),
               ],
-            ),
+            );
+            },)
           ),
         ),
       ),
