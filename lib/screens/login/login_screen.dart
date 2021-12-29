@@ -16,10 +16,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text('Entrar'),
         centerTitle: true,
@@ -75,10 +77,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         context.read<UserManager>().signIn(
-                              UserModel(
-                                  email: emailController.text,
-                                  password: passController.text),
-                            );
+                            user: UserModel(
+                                email: emailController.text,
+                                password: passController.text),
+                            onFail: (e) {
+                              scaffoldKey.currentState!.showSnackBar(
+                                SnackBar(
+                                  content: Text("Falha ao entrar $e"),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            },
+                            onSuccess: () {});
                       }
                     },
                     color: Theme.of(context).primaryColor,
