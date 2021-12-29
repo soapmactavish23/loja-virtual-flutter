@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: userManager.loading ? null : () {
                       if (formKey.currentState!.validate()) {
                         userManager.signIn(
-                            user: UserModel(
+                            userModel: UserModel(
                                 email: emailController.text,
                                 password: passController.text),
                             onFail: (e) {
