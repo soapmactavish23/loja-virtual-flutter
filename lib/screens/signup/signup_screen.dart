@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               TextFormField(
                 decoration: const InputDecoration(hintText: 'E-mail'),
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.emailAddress, 
                 autocorrect: false,
                 validator: (email) {},
               ),
