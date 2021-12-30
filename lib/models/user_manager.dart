@@ -41,7 +41,7 @@ class UserManager extends ChangeNotifier {
     final User? currentUser = await auth.currentUser;
     if (currentUser != null) {
       user = currentUser;
-      print("aqui $user.uid");
+      print("aqui ${user.uid}");
     }
     notifyListeners();
   }
