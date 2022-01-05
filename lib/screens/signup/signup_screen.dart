@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/helper/validators.dart';
 import 'package:loja_virtual/models/user.dart';
+import 'package:loja_virtual/models/user_manager.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -102,7 +103,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         formKey.currentState!.save();
 
                         if (user.password != user.confirmPassword) {
-                          print("aqui");
                           // ignore: deprecated_member_use
                           scaffoldKey.currentState!.showSnackBar(
                             const SnackBar(
@@ -112,6 +112,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           );
                           return;
                         }
+
+                        context.read<UserManager>().signUp(
+                              user: user,
+                              onSuccess: () {
+                                debugPrint('Sucesso!');
+                                //TODO: POP
+                              },
+                              onFail: (e) {
+                                // ignore: deprecated_member_use
+                                scaffoldKey.currentState!.showSnackBar(
+                                  SnackBar(
+                                    content: Text("Falha ao cadastrar: $e"),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              },
+                            );
                       }
                     },
                     child: const Text(
