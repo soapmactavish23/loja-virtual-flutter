@@ -1,8 +1,8 @@
 class UserModel {
+  String name;
+  String email;
+  String password;
+  String confirmPassword = "";
 
-  String email = "";
-  String password = "";
-
-  UserModel({required this.email, required this.password});
-
+  UserModel({this.email = "", this.password = "", this.name = ""});
 }

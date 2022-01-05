@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/helper/validators.dart';
+import 'package:loja_virtual/models/user.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -6,74 +9,119 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final UserModel user = UserModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text("Criar Conta"),
       ),
       body: Center(
         child: Card(
           margin: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            shrinkWrap: true,
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Nome Completo'),
-                validator: (nome) {},
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'E-mail'),
-                keyboardType: TextInputType.emailAddress, 
-                autocorrect: false,
-                validator: (email) {},
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Senha'),
-                autocorrect: false,
-                obscureText: true,
-                validator: (pass) {
-                  if (pass == '' || pass!.length < 6) {
-                    return 'Senha inválida';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Repita a Senha'),
-                autocorrect: false,
-                obscureText: true,
-                validator: (pass) {
-                  if (pass == '' || pass!.length < 6) {
-                    return 'Senha inválida';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                height: 44,
-                child: RaisedButton(
-                  onPressed: () {},
-                  color: Theme.of(context).primaryColor,
-                  disabledColor: Theme.of(context).primaryColor.withAlpha(100),
-                  textColor: Colors.white,
-                  child: const Text(
-                    "Criar Conta",
-                    style: TextStyle(fontSize: 18),
+          child: Form(
+            key: formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              shrinkWrap: true,
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(hintText: 'Nome Completo'),
+                  validator: (name) {
+                    if (name!.isEmpty) {
+                      return 'Campo obrigatório';
+                    } else if (name.trim().split(' ').length <= 1) {
+                      return 'Preencha seu Nome Completo';
+                    }
+                    return null;
+                  },
+                  onSaved: (name) => user.name = name!,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(hintText: 'E-mail'),
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  validator: (email) {
+                    if (email!.isEmpty) {
+                      return 'Campo obrigatório';
+                    } else if (!emailValid(email)) {
+                      return 'E-mail inválido';
+                    }
+                    return null;
+                  },
+                  onSaved: (email) => user.email = email!,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(hintText: 'Senha'),
+                  autocorrect: false,
+                  obscureText: true,
+                  validator: (pass) {
+                    if (pass == '' || pass!.length < 6) {
+                      return 'Senha inválida';
+                    }
+                    return null;
+                  },
+                  onSaved: (password) => user.password = password!,
+                ),
+                TextFormField(
+                    decoration:
+                        const InputDecoration(hintText: 'Repita a Senha'),
+                    autocorrect: false,
+                    obscureText: true,
+                    validator: (pass) {
+                      if (pass == '' || pass!.length < 6) {
+                        return 'Senha inválida';
+                      }
+                      return null;
+                    },
+                    onSaved: (confirmPassword) =>
+                        user.confirmPassword = confirmPassword!),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: 44,
+                  child: RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    disabledColor:
+                        Theme.of(context).primaryColor.withAlpha(100),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+
+                        if (user.password != user.confirmPassword) {
+                          print("aqui");
+                          // ignore: deprecated_member_use
+                          scaffoldKey.currentState!.showSnackBar(
+                            const SnackBar(
+                              content: Text("Senhas não coincidem!"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          return;
+                        }
+                      }
+                    },
+                    child: const Text(
+                      "Criar Conta",
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

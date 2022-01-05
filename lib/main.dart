@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:loja_virtual/models/user_manager.dart';
 import 'package:loja_virtual/screens/base/base_screen.dart';
-import 'package:loja_virtual/screens/login/login_screen.dart';
 import 'package:loja_virtual/screens/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
 
