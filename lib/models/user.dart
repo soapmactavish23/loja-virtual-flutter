@@ -19,6 +19,12 @@ class UserModel {
     await firestoreRef.set(toMap());
   }
 
+  fromDocument(DocumentSnapshot document) {
+    id = document['id'];
+    name = document['name'] as String;
+    email = document['email'] as String;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -28,10 +34,11 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    print(map.toString());
     return UserModel(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
+      id: map['id'] as String,
+      name: map['name'] as String,
+      email: map['email'] as String,
     );
   }
 
