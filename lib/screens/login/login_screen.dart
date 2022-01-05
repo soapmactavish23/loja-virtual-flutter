@@ -106,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                           );
                                         },
-                                        onSuccess: () {});
+                                        onSuccess: () {
+                                          Navigator.of(context).pop();
+                                        });
                                   }
                                 },
                           color: Theme.of(context).primaryColor,

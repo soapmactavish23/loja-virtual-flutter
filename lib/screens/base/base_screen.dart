@@ -9,14 +9,12 @@ class BaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Provider(
       create: (_) => PageManager(pageController),
       child: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          LoginScreen(),
           Scaffold(drawer: CustomDrawer(), appBar: AppBar(title: Text("Home"))),
         ],
       ),

@@ -14,6 +14,8 @@ class UserManager extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
+  bool get isLoggedIn => user.id != "";
+
   UserManager() {
     _loadCurrentUser();
   }
@@ -59,14 +61,19 @@ class UserManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void signOut() {
+    auth.signOut();
+    user = UserModel();
+    notifyListeners();
+  }
+
   Future<void> _loadCurrentUser({User? firebaseUser}) async {
-    final User? currentUser = firebaseUser ?? await auth.currentUser;
+    final User? currentUser = firebaseUser ?? auth.currentUser;
     if (currentUser != null) {
       final DocumentSnapshot snapshot =
           await firestore.collection('users').doc(currentUser.uid).get();
-      this.user = UserModel.fromJson(json.encode(snapshot.data()));
+      user = UserModel.fromJson(json.encode(snapshot.data()));
 
-      print(this.user.toMap());
       notifyListeners();
     }
   }
