@@ -9,7 +9,7 @@ class ProductManager extends ChangeNotifier {
 
   final FirebaseFirestore firebasestore = FirebaseFirestore.instance;
 
-  List<Product> _allProducts = [];
+  List<Product> allProducts = [];
 
   _loadAllProducts() async {
     final QuerySnapshot snapProducts =
@@ -18,7 +18,7 @@ class ProductManager extends ChangeNotifier {
     for (DocumentSnapshot docs in snapProducts.docs) {
       Product p = Product();
       p.fromDocument(docs);
-      _allProducts.add(p);
+      allProducts.add(p);
     }
     notifyListeners();
   }
