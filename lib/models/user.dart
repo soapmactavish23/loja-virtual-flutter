@@ -34,7 +34,6 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    print(map.toString());
     return UserModel(
       id: map['id'] as String,
       name: map['name'] as String,
