@@ -1,14 +1,24 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual/models/item_size.dart';
 
-class Product {
+class Product extends ChangeNotifier {
   String id = "";
   String name = "";
   String description = "";
   List<String> images = [];
   List<ItemSize> sizes = [];
+
+  ItemSize _selectedSize = ItemSize();
+  
+  ItemSize get selectedSize => _selectedSize;
+
+  set selectedSize(ItemSize item) {
+    _selectedSize = item;
+    notifyListeners();
+  }
 
   fromDocument(DocumentSnapshot document) {
     id = document.id;
