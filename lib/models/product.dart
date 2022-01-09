@@ -11,11 +11,11 @@ class Product extends ChangeNotifier {
   List<String> images = [];
   List<ItemSize> sizes = [];
 
-  ItemSize _selectedSize = ItemSize();
+  ItemSize? _selectedSize = null;
   
-  ItemSize get selectedSize => _selectedSize;
+  ItemSize? get selectedSize => _selectedSize;
 
-  set selectedSize(ItemSize item) {
+  set selectedSize(item) {
     _selectedSize = item;
     notifyListeners();
   }
@@ -29,4 +29,17 @@ class Product extends ChangeNotifier {
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
   }
+
+  int get totalStocks {
+    int stock = 0;
+    for(final size in sizes) {
+      stock += size.stock;
+    }
+    return stock;
+  }
+
+  bool get hasStock {
+    return totalStocks > 0;
+  }
+
 }

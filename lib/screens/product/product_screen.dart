@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:loja_virtual/models/item_size.dart';
 import 'package:loja_virtual/models/product.dart';
+import 'package:loja_virtual/models/user_manager.dart';
 import 'package:loja_virtual/screens/product/component/size_widget.dart';
 import 'package:provider/provider.dart';
+
 class ProductScreen extends StatelessWidget {
   const ProductScreen({
     Key? key,
@@ -13,6 +16,8 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return ChangeNotifierProvider.value(
       value: product,
       child: Scaffold(
@@ -41,7 +46,7 @@ class ProductScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     product.name,
@@ -95,11 +100,40 @@ class ProductScreen extends StatelessWidget {
                     ),
                   ),
                   Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: product.sizes.map((s) {
-                        return SizeWidget(size: s);
-                      }).toList()),
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: product.sizes.map((s) {
+                      return SizeWidget(size: s);
+                    }).toList(),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  if (product.hasStock)
+                    Consumer2<UserManager, Product>(
+                        builder: (_, userManager, product, __) {
+                      return SizedBox(
+                        height: 44,
+                        child: RaisedButton(
+                          color: primaryColor,
+                          textColor: Colors.white,
+                          child: Text(
+                            userManager.isLoggedIn
+                                ? 'Adicionar ao carrinho'
+                                : 'Entre para comprar',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          onPressed: product.selectedSize == null
+                              ? null
+                              : () {
+                                  if (userManager.isLoggedIn) {
+                                  } else {
+                                    Navigator.of(context).pushNamed("/login");
+                                  }
+                                },
+                        ),
+                      );
+                    }),
                 ],
               ),
             ),
