@@ -18,22 +18,21 @@ class DrawerTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.read<PageManager>().setPage(page);
-        debugPrint("Toquei");
       },
       child: SizedBox(
         height: 60,
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Icon(
-                this.iconData,
+                iconData,
                 size: 32,
                 color: curPage == page ? primaryColor : Colors.grey[700],
               ),
             ),
             Text(
-              this.title,
+              title,
               style: TextStyle(fontSize: 16, color: curPage == page ? primaryColor : Colors.grey[700]),
             ),
           ],
