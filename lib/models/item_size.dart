@@ -11,6 +11,8 @@ class ItemSize {
     this.stock = 0,
   });
 
+  bool get hasStock => stock > 0;
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

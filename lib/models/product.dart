@@ -18,7 +18,5 @@ class Product {
     sizes = (document['sizes'] as List<dynamic>)
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
-
-    print(sizes);
   }
 }
