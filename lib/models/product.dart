@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual/models/item_size.dart';
@@ -12,7 +10,7 @@ class Product extends ChangeNotifier {
   List<ItemSize> sizes = [];
 
   ItemSize? _selectedSize = null;
-  
+
   ItemSize? get selectedSize => _selectedSize;
 
   set selectedSize(item) {
@@ -32,7 +30,7 @@ class Product extends ChangeNotifier {
 
   int get totalStocks {
     int stock = 0;
-    for(final size in sizes) {
+    for (final size in sizes) {
       stock += size.stock;
     }
     return stock;
@@ -41,5 +39,4 @@ class Product extends ChangeNotifier {
   bool get hasStock {
     return totalStocks > 0;
   }
-
 }
