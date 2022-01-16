@@ -18,7 +18,7 @@ class CartTile extends StatelessWidget {
             SizedBox(
               height: 80,
               width: 80,
-              child: Image.network(cartProduct.product.images.first),
+              child: Image.network(cartProduct.product!.images.first),
             ),
             Expanded(
               child: Padding(
@@ -26,7 +26,7 @@ class CartTile extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      cartProduct.product.name,
+                      cartProduct.product!.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17.0,

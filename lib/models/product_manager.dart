@@ -39,9 +39,7 @@ class ProductManager extends ChangeNotifier {
         await firebasestore.collection('products').get();
 
     for (DocumentSnapshot docs in snapProducts.docs) {
-      Product p = Product();
-      p.fromDocument(docs);
-      allProducts.add(p);
+      allProducts.add(Product.fromDocument(docs));
     }
     notifyListeners();
   }

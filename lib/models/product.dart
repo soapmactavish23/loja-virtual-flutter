@@ -18,7 +18,7 @@ class Product extends ChangeNotifier {
     notifyListeners();
   }
 
-  fromDocument(DocumentSnapshot document) {
+  Product.fromDocument(DocumentSnapshot document) {
     id = document.id;
     name = document['name'] as String;
     description = document['description'] as String;
