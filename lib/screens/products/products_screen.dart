@@ -23,63 +23,72 @@ class ProductsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        drawer: const CustomDrawer(),
-        appBar: AppBar(
-          title: Consumer<ProductManager>(
+      drawer: const CustomDrawer(),
+      appBar: AppBar(
+        title: Consumer<ProductManager>(
+          builder: (_, productManager, __) {
+            if (productManager.search.isEmpty) {
+              return const Text("Produtos");
+            } else {
+              return LayoutBuilder(builder: (_, constraints) {
+                return GestureDetector(
+                  onTap: () {
+                    searchProducts(productManager);
+                  },
+                  child: Container(
+                    width: constraints.biggest.width,
+                    child: Text(
+                      productManager.search,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              });
+            }
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          Consumer<ProductManager>(
             builder: (_, productManager, __) {
               if (productManager.search.isEmpty) {
-                return const Text("Produtos");
+                return IconButton(
+                  onPressed: () async {
+                    searchProducts(productManager);
+                  },
+                  icon: const Icon(Icons.search),
+                );
               } else {
-                return LayoutBuilder(builder: (_, constraints) {
-                  return GestureDetector(
-                    onTap: () {
-                      searchProducts(productManager);
-                    },
-                    child: Container(
-                      width: constraints.biggest.width,
-                      child: Text(
-                        productManager.search,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                });
+                return IconButton(
+                  onPressed: () async {
+                    productManager.search = '';
+                  },
+                  icon: const Icon(Icons.close),
+                );
               }
             },
           ),
-          centerTitle: true,
-          actions: [
-            Consumer<ProductManager>(
-              builder: (_, productManager, __) {
-                if (productManager.search.isEmpty) {
-                  return IconButton(
-                    onPressed: () async {
-                      searchProducts(productManager);
-                    },
-                    icon: const Icon(Icons.search),
-                  );
-                } else {
-                  return IconButton(
-                    onPressed: () async {
-                      productManager.search = '';
-                    },
-                    icon: const Icon(Icons.close),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-        body: Consumer<ProductManager>(
-          builder: (_, productManager, __) {
-            final filteredProducts = productManager.filteredProducts;
-            return ListView.builder(
-                padding: const EdgeInsets.all(4),
-                itemCount: filteredProducts.length,
-                itemBuilder: (_, index) {
-                  return ProductListTile(filteredProducts[index]);
-                });
-          },
-        ));
+        ],
+      ),
+      body: Consumer<ProductManager>(
+        builder: (_, productManager, __) {
+          final filteredProducts = productManager.filteredProducts;
+          return ListView.builder(
+              padding: const EdgeInsets.all(4),
+              itemCount: filteredProducts.length,
+              itemBuilder: (_, index) {
+                return ProductListTile(filteredProducts[index]);
+              });
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        foregroundColor: Theme.of(context).primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, "/cart");
+        },
+        child: const Icon(Icons.shopping_cart),
+      ),
+    );
   }
 }
