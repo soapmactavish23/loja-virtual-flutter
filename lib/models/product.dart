@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:loja_virtual/models/item_size.dart';
 
 class Product extends ChangeNotifier {
@@ -48,4 +49,9 @@ class Product extends ChangeNotifier {
     }
   }
 
+
+  @override
+  String toString() {
+    return 'Product(id: $id, name: $name, description: $description, images: $images, sizes: $sizes, _selectedSize: $_selectedSize)';
+  }
 }

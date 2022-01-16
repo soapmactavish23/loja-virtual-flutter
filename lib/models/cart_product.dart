@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:loja_virtual/models/item_size.dart';
 import 'package:loja_virtual/models/product.dart';
 
@@ -48,5 +49,18 @@ class CartProduct {
 
   bool stackable(Product product) {
     return product.id == productId && product.selectedSize!.name == size;
+  }
+
+  void increment() {
+    quantity++;
+  }
+
+  void decrement() {
+    quantity--;
+  }
+
+  @override
+  String toString() {
+    return 'CartProduct(productId: $productId, quantity: $quantity, size: $size, product: $product)';
   }
 }
