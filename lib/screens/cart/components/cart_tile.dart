@@ -44,13 +44,27 @@ class CartTile extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.w300),
                         ),
                       ),
-                      Text(
-                        'R\$ ${cartProduct.unitPrice.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 4, 125, 141),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
+                      Consumer<CartProduct>(
+                        builder: (_, cartProduct, __) {
+                          if (cartProduct.hasStock) {
+                            return Text(
+                              'R\$ ${cartProduct.unitPrice.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 4, 125, 141),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            );
+                          } else {
+                            return const Text(
+                              'Sem estoque suficiente',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -73,8 +87,12 @@ class CartTile extends StatelessWidget {
                       ),
                       CustomIconButton(
                         iconData: Icons.minimize_rounded,
-                        color: cartProduct.quantity > 1 ? primaryColor :  Colors.red,
-                        onTap: cartProduct.quantity >= 1 ? cartProduct.decrement : null,
+                        color: cartProduct.quantity > 1
+                            ? primaryColor
+                            : Colors.red,
+                        onTap: cartProduct.quantity >= 1
+                            ? cartProduct.decrement
+                            : null,
                       ),
                     ],
                   );

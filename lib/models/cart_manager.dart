@@ -10,6 +10,8 @@ class CartManager extends ChangeNotifier {
 
   UserModel? user;
 
+  num productsPrice = 0.0;
+
   void updateUser(UserManager userManager) {
     user = userManager.user;
     items.clear();
@@ -34,17 +36,32 @@ class CartManager extends ChangeNotifier {
       final cartProduct = CartProduct.fromProduct(product);
       cartProduct.addListener(_onItemUpdated);
       items.add(cartProduct);
-      user!.cartReference.add(cartProduct.toCartItemMap()).then((doc) => cartProduct.id = doc.id);
+      user!.cartReference
+          .add(cartProduct.toCartItemMap())
+          .then((doc) => cartProduct.id = doc.id);
+      _onItemUpdated();
     }
+    notifyListeners();
   }
 
   void _onItemUpdated() {
-    for (final cartProduct in items) {
-      if(cartProduct.quantity == 0) {
+    productsPrice = 0.0;
+
+    for (int i = 0; i < items.length; i++) {
+      final cartProduct = items[i];
+
+      if (cartProduct.quantity == 0) {
         removeOfCart(cartProduct);
+        i--;
+        continue;
       }
+
+      productsPrice += cartProduct.totalPrice;
+
       _updatedCartProduct(cartProduct);
     }
+
+    print(productsPrice);
   }
 
   void removeOfCart(CartProduct cartProduct) {
@@ -55,6 +72,17 @@ class CartManager extends ChangeNotifier {
   }
 
   void _updatedCartProduct(CartProduct cartProduct) {
-    user!.cartReference.doc(cartProduct.id).update(cartProduct.toCartItemMap());
+    if (cartProduct.id != null) {
+      user!.cartReference
+          .doc(cartProduct.id)
+          .update(cartProduct.toCartItemMap());
+    }
+  }
+
+  bool get isCartValid {
+    for (final cartProduct in items) {
+      if (!cartProduct.hasStock) return false;
+    }
+    return true;
   }
 }
