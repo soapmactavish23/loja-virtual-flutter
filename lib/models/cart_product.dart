@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:loja_virtual/models/item_size.dart';
 import 'package:loja_virtual/models/product.dart';
 
-class CartProduct {
+class CartProduct extends ChangeNotifier {
   CartProduct.fromProduct(this.product) {
     productId = product!.id;
     quantity = 1;
@@ -16,9 +17,10 @@ class CartProduct {
     size = document['size'] as String;
 
     firestore
-        .doc("product/$productId")
+        .doc("products/$productId")
         .get()
         .then((doc) => product = Product.fromDocument(doc));
+
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -40,11 +42,7 @@ class CartProduct {
   }
 
   Map<String, dynamic> toCartItemMap() {
-    return {
-      'pid': productId,
-      'quantity': quantity,
-      'size': size
-    };
+    return {'pid': productId, 'quantity': quantity, 'size': size};
   }
 
   bool stackable(Product product) {
@@ -53,10 +51,12 @@ class CartProduct {
 
   void increment() {
     quantity++;
+    notifyListeners();
   }
 
   void decrement() {
     quantity--;
+    notifyListeners();
   }
 
   @override
