@@ -74,7 +74,7 @@ class CartTile extends StatelessWidget {
                       CustomIconButton(
                         iconData: Icons.minimize_rounded,
                         color: cartProduct.quantity > 1 ? primaryColor :  Colors.red,
-                        onTap: cartProduct.quantity > 1 ? cartProduct.decrement : null,
+                        onTap: cartProduct.quantity >= 1 ? cartProduct.decrement : null,
                       ),
                     ],
                   );
