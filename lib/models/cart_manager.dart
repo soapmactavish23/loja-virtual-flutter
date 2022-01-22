@@ -22,10 +22,14 @@ class CartManager extends ChangeNotifier {
   }
 
   _loadCartItems() async {
-    final QuerySnapshot cartSnap = await user!.cartReference.get();
-    items = cartSnap.docs
-        .map((d) => CartProduct.fromDocument(d)..addListener(_onItemUpdated))
-        .toList();
+    try {
+      final QuerySnapshot cartSnap = await user!.cartReference.get();
+      items = cartSnap.docs
+          .map((d) => CartProduct.fromDocument(d)..addListener(_onItemUpdated))
+          .toList();
+    } catch (e) {
+      debugPrint("CartManager: $e");
+    }
   }
 
   void addToCart(Product product) {

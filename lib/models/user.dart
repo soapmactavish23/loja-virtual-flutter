@@ -22,7 +22,7 @@ class UserModel {
   }
 
   fromDocument(DocumentSnapshot document) {
-    id = document['id'];
+    id = document.id;
     name = document['name'] as String;
     email = document['email'] as String;
   }
