@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: ^3.3.4
   provider: ^6.0.1
   carousel_slider: ^4.0.0
+  flutter_staggered_grid_view: ^0.6.0
 
 dev_dependencies:
   flutter_test:
