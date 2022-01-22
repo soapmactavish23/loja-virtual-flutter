@@ -17,6 +17,25 @@ class SectionList extends StatelessWidget {
           SectionHeader(
             section: section,
           ),
+          SizedBox(
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (_, __) => const SizedBox(
+                width: 4,
+              ),
+              itemCount: section.items.length,
+              itemBuilder: (_, index) {
+                return AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.network(
+                    section.items[index].image,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
+            ),
+          )
         ],
       ),
     );
