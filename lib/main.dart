@@ -47,13 +47,14 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Loja do Henrick',
+        title: 'Loja da SH',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: const Color.fromARGB(255, 4, 125, 141),
-          scaffoldBackgroundColor: const Color.fromARGB(255, 4, 125, 141),
+          primaryColor: const Color(0xff155079),
+          scaffoldBackgroundColor: const Color(0xff155079),
+          accentColor: Color.fromARGB(255, 4, 125, 141),
           appBarTheme: const AppBarTheme(
-              elevation: 0, color: Color.fromARGB(255, 4, 125, 141)),
+              elevation: 0, color: Color(0xff102C5A)),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         initialRoute: "/base",
