@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:loja_virtual/models/admin_user_manager.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/home_manager.dart';
 import 'package:loja_virtual/models/product.dart';
@@ -45,6 +46,11 @@ class MyApp extends StatelessWidget {
           update: (_, userManager, cartManager) =>
               cartManager!..updateUser(userManager),
         ),
+        ChangeNotifierProxyProvider<UserManager, AdminUserManager>(
+          create: (_) => AdminUserManager(),
+          lazy: false,
+          update: (_, userManager, adminUserManager) => adminUserManager!..updateUser(userManager),
+        )
       ],
       child: MaterialApp(
         title: 'Loja da SH',
@@ -53,8 +59,8 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color(0xff155079),
           scaffoldBackgroundColor: const Color(0xff155079),
           accentColor: Color.fromARGB(255, 4, 125, 141),
-          appBarTheme: const AppBarTheme(
-              elevation: 0, color: Color(0xff102C5A)),
+          appBarTheme:
+              const AppBarTheme(elevation: 0, color: Color(0xff155079)),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         initialRoute: "/base",
