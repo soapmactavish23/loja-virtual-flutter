@@ -14,10 +14,10 @@ class AdminUserManager extends ChangeNotifier {
   StreamSubscription? _streamSubscription;
 
   void updateUser(UserManager userManager) {
-    _streamSubscription!.cancel();
     if (userManager.adminEnabled) {
       _listenToUsers();
     } else {
+      // _streamSubscription!.cancel();
       users.clear();
       notifyListeners();
     }

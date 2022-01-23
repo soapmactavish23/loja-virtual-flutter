@@ -27,6 +27,22 @@ class ProductScreen extends StatelessWidget {
             product.name,
           ),
           centerTitle: true,
+          actions: [
+            Consumer<UserManager>(
+              builder: (_, userManager, __) {
+                if (userManager.adminEnabled) {
+                  return IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/edit_product');
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
         ),
         body: ListView(
           children: [
