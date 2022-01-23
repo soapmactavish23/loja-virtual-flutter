@@ -1,6 +1,7 @@
 import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/admin_user_manager.dart';
+import 'package:loja_virtual/models/user.dart';
 import 'package:provider/provider.dart';
 
 class AdminUserScreen extends StatelessWidget {
@@ -14,18 +15,23 @@ class AdminUserScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Consumer<AdminUserManager>(builder: (_, adminUserManager, __) {
+        List<UserModel> users = adminUserManager.users;
+
         return AlphabetListScrollView(
           itemBuilder: (_, i) {
             return ListTile(
+              leading: const CircleAvatar(
+                child: Icon(Icons.person),
+              ),
               title: Text(
-                adminUserManager.users[i].name,
+                users[i].name,
                 style: const TextStyle(
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
                 ),
               ),
               subtitle: Text(
-                adminUserManager.users[i].email,
+                users[i].email,
                 style: const TextStyle(
                   color: Colors.white,
                 ),
