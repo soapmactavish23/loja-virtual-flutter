@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/models/page_manager.dart';
 import 'package:loja_virtual/models/user_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -17,11 +18,11 @@ class CustomDrawerHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Text(
-                "Loja do\nHenrick",
+                "Loja do\nSoftware House",
                 style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
               ),
               Text(
-                'Olá, ${userManager.user.name}',
+                'Olá ${userManager.user.name}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style:
@@ -30,6 +31,7 @@ class CustomDrawerHeader extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   if (userManager.isLoggedIn) {
+                    context.read<PageManager>().setPage(0);
                     userManager.signOut();
                   } else {
                     Navigator.pushNamed(context, "/login");

@@ -79,8 +79,6 @@ class UserManager extends ChangeNotifier {
         user.admin = true;
       }
 
-      print(user.admin);
-
       notifyListeners();
     }
   }
