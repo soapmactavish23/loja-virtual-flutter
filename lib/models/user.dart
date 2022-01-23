@@ -9,6 +9,8 @@ class UserModel {
   String password;
   String confirmPassword = "";
 
+  bool admin = false;
+
   UserModel(
       {this.id = "", this.email = "", this.password = "", this.name = ""});
 
@@ -47,4 +49,9 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'UserModel(id: $id, name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, admin: $admin)';
+  }
 }
