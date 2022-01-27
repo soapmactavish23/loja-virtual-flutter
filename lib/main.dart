@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<UserManager, AdminUserManager>(
           create: (_) => AdminUserManager(),
           lazy: false,
-          update: (_, userManager, adminUserManager) => adminUserManager!..updateUser(userManager),
+          update: (_, userManager, adminUserManager) =>
+              adminUserManager!..updateUser(userManager),
         )
       ],
       child: MaterialApp(
@@ -83,7 +84,8 @@ class MyApp extends StatelessWidget {
               );
             case "/edit_product":
               return MaterialPageRoute(
-                builder: (_) => const EditProductScreen(),
+                builder: (_) =>
+                    EditProductScreen(settings.arguments as Product),
               );
             case "/base":
             default:
