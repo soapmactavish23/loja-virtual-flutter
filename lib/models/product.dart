@@ -41,6 +41,16 @@ class Product extends ChangeNotifier {
     return totalStocks > 0;
   }
 
+  num get basePrice {
+    num lowest = double.infinity;
+    for (final size in sizes) {
+      if (size.price < lowest && size.hasStock) {
+        lowest = size.price;
+      }
+    }
+    return lowest;
+  }
+
   ItemSize? findSize(String name) {
     try {
       return sizes.firstWhere((s) => s.name == name);
@@ -48,7 +58,6 @@ class Product extends ChangeNotifier {
       return null;
     }
   }
-
 
   @override
   String toString() {
