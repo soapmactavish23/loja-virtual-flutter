@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageSourceSheet extends StatelessWidget {
-  const ImageSourceSheet({Key? key}) : super(key: key);
+  ImageSourceSheet({Key? key, required this.onImageSelected}) : super(key: key);
+
+  final Function(File) onImageSelected;
+
+  final ImagePicker picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +18,20 @@ class ImageSourceSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          FlatButton(
-            onPressed: () {},
+          TextButton(
+            onPressed: () async {
+              final XFile? file =
+                  await picker.pickImage(source: ImageSource.camera);
+              onImageSelected(File(file!.path));
+            },
             child: const Text("Câmera"),
           ),
-          FlatButton(
-            onPressed: () {},
+          TextButton(
+            onPressed: () async {
+              final XFile? file =
+                  await picker.pickImage(source: ImageSource.gallery);
+              onImageSelected(File(file!.path));
+            },
             child: const Text("Galeria"),
           ),
         ],

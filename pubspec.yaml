@@ -42,6 +42,7 @@ dependencies:
   transparent_image: ^2.0.0
   alphabet_list_scroll_view: ^2.0.0
   faker: ^2.0.0
+  image_picker: ^0.8.4+5
 
 dev_dependencies:
   flutter_test:
