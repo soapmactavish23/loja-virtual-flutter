@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/screens/edit_product/components/images_form.dart';
+import 'package:loja_virtual/screens/edit_product/components/sizes_form.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(this.product, {Key? key}) : super(key: key);
@@ -77,21 +78,25 @@ class EditProductScreen extends StatelessWidget {
                       ),
                     ),
                     TextFormField(
-                        initialValue: product.description,
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: 'Descrição',
-                          border: InputBorder.none,
-                        ),
-                        maxLines: null,
-                        validator: (desc) {
-                          if (desc!.length < 10) {
-                            return 'Descrição muito curta';
-                          }
-                          return null;
-                        }),
+                      initialValue: product.description,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Descrição',
+                        border: InputBorder.none,
+                      ),
+                      maxLines: null,
+                      validator: (desc) {
+                        if (desc!.length < 10) {
+                          return 'Descrição muito curta';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizesForm(
+                      product: product,
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
