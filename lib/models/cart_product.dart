@@ -8,7 +8,7 @@ class CartProduct extends ChangeNotifier {
   CartProduct.fromProduct(this.product) {
     productId = product!.id;
     quantity = 1;
-    size = product!.selectedSize!.name;
+    size = product!.selectedSize!.name!;
   }
 
   CartProduct.fromDocument(DocumentSnapshot document) {
@@ -17,14 +17,10 @@ class CartProduct extends ChangeNotifier {
     quantity = document["quantity"] as int;
     size = document['size'] as String;
 
-    firestore
-        .doc("products/$productId")
-        .get()
-        .then((doc) {
-          product = Product.fromDocument(doc);
-          notifyListeners();
-        });
-
+    firestore.doc("products/$productId").get().then((doc) {
+      product = Product.fromDocument(doc);
+      notifyListeners();
+    });
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -68,8 +64,8 @@ class CartProduct extends ChangeNotifier {
 
   bool get hasStock {
     final size = itemSize;
-    if(size == null) return false;
-    return size.stock >= quantity;
+    if (size == null) return false;
+    return size.stock! >= quantity;
   }
 
   @override

@@ -11,67 +11,78 @@ class SizesForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FormField<List<ItemSize>>(
-          initialValue: List.from(product.sizes),
-          builder: (state) {
-            return Column(
+    return FormField<List<ItemSize>>(
+      validator: (sizes) {
+        if (sizes!.isEmpty) return 'Insira um tamanho';
+        return null;
+      },
+      initialValue: List.from(product.sizes),
+      builder: (state) {
+        return Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Tamanhos',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                const Expanded(
+                  child: Text(
+                    'Tamanhos',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
-                    CustomIconButton(
-                      iconData: Icons.add,
-                      color: Colors.black,
-                      onTap: () {
-                        state.value!.add(ItemSize());
-                        state.didChange(state.value);
-                      },
-                    )
-                  ],
+                  ),
                 ),
-                Column(
-                  children: state.value!.map((size) {
-                    return EditItemSize(
-                      key: ObjectKey(size),
-                      size: size,
-                      onRemove: () {
-                        state.value!.remove(size);
-                        state.didChange(state.value);
-                      },
-                      onMoveUp: size != state.value!.first
-                          ? () {
-                              final index = state.value!.indexOf(size);
-                              state.value!.remove(size);
-                              state.value!.insert(index - 1, size);
-                              state.didChange(state.value);
-                            }
-                          : null,
-                      onMoveDown: size != state.value!.last
-                          ? () {
-                              final index = state.value!.indexOf(size);
-                              state.value!.remove(size);
-                              state.value!.insert(index + 1, size);
-                              state.didChange(state.value);
-                            }
-                          : null,
-                    );
-                  }).toList(),
+                CustomIconButton(
+                  iconData: Icons.add,
+                  color: Colors.black,
+                  onTap: () {
+                    state.value!.add(ItemSize());
+                    state.didChange(state.value);
+                  },
                 )
               ],
-            );
-          },
-        ),
-      ],
+            ),
+            Column(
+              children: state.value!.map((size) {
+                return EditItemSize(
+                  key: ObjectKey(size),
+                  size: size,
+                  onRemove: () {
+                    state.value!.remove(size);
+                    state.didChange(state.value);
+                  },
+                  onMoveUp: size != state.value!.first
+                      ? () {
+                          final index = state.value!.indexOf(size);
+                          state.value!.remove(size);
+                          state.value!.insert(index - 1, size);
+                          state.didChange(state.value);
+                        }
+                      : null,
+                  onMoveDown: size != state.value!.last
+                      ? () {
+                          final index = state.value!.indexOf(size);
+                          state.value!.remove(size);
+                          state.value!.insert(index + 1, size);
+                          state.didChange(state.value);
+                        }
+                      : null,
+                );
+              }).toList(),
+            ),
+            if (state.hasError)
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  state.errorText!,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

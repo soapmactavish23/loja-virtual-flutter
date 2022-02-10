@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class ItemSize {
-  String name;
-  num price;
-  int stock;
+  String? name;
+  num? price;
+  int? stock;
 
   ItemSize({
     this.name = "",
@@ -11,7 +11,7 @@ class ItemSize {
     this.stock = 0,
   });
 
-  bool get hasStock => stock > 0;
+  bool get hasStock => stock! > 0;
 
   Map<String, dynamic> toMap() {
     return {

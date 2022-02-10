@@ -27,6 +27,13 @@ class EditItemSize extends StatelessWidget {
               labelText: 'Título',
               isDense: true,
             ),
+            validator: (name) {
+              if (name!.isEmpty) {
+                return 'Inválido';
+              }
+              return null;
+            },
+            onChanged: (name) => size.name = name,
           ),
         ),
         const SizedBox(
@@ -41,6 +48,13 @@ class EditItemSize extends StatelessWidget {
               isDense: true,
             ),
             keyboardType: TextInputType.number,
+            validator: (stock) {
+              if (int.tryParse(stock!) == null || int.tryParse(stock) == 0) {
+                return 'Inválido';
+              }
+              return null;
+            },
+            onChanged: (stock) => size.stock = int.tryParse(stock),
           ),
         ),
         const SizedBox(
@@ -49,13 +63,20 @@ class EditItemSize extends StatelessWidget {
         Expanded(
           flex: 40,
           child: TextFormField(
-            initialValue: size.price.toStringAsFixed(2),
+            initialValue: size.price!.toStringAsFixed(2),
             decoration: const InputDecoration(
               labelText: 'Preço',
               isDense: true,
               prefixText: 'R\$',
             ),
             keyboardType: TextInputType.number,
+            validator: (price) {
+              if (num.tryParse(price!) == null || num.tryParse(price) == 0) {
+                return 'Inválido';
+              }
+              return null;
+            },
+            onChanged: (price) => size.price = num.parse(price),
           ),
         ),
         CustomIconButton(
