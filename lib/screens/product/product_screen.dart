@@ -52,7 +52,7 @@ class ProductScreen extends StatelessWidget {
                 height: 400.0,
                 viewportFraction: 1.0,
               ),
-              items: product.images.map((url) {
+              items: product.images!.map((url) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Image.network(url);
@@ -119,7 +119,7 @@ class ProductScreen extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: product.sizes.map((s) {
+                    children: product.sizes!.map((s) {
                       return SizeWidget(size: s);
                     }).toList(),
                   ),

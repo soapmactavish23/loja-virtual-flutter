@@ -16,7 +16,7 @@ class SizesForm extends StatelessWidget {
         if (sizes!.isEmpty) return 'Insira um tamanho';
         return null;
       },
-      initialValue: List.from(product.sizes),
+      initialValue: product.sizes,
       builder: (state) {
         return Column(
           children: [

@@ -13,6 +13,10 @@ class ItemSize {
 
   bool get hasStock => stock! > 0;
 
+  ItemSize clone() {
+    return ItemSize(name: name, price: price, stock: stock);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

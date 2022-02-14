@@ -4,17 +4,22 @@ import 'package:loja_virtual/screens/edit_product/components/images_form.dart';
 import 'package:loja_virtual/screens/edit_product/components/sizes_form.dart';
 
 class EditProductScreen extends StatelessWidget {
-  EditProductScreen(this.product, {Key? key}) : super(key: key);
+  EditProductScreen(Product p, {Key? key})
+      : editing = p.id != "",
+        product = p.clone(),
+        super(key: key);
 
   final Product product;
+  final bool editing;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(product.toString());
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Editar Anúncio'),
+          title: Text(editing ? 'Editar Anúncio' : 'Criar Produto'),
           centerTitle: true,
         ),
         backgroundColor: Colors.white,
@@ -97,13 +102,24 @@ class EditProductScreen extends StatelessWidget {
                     SizesForm(
                       product: product,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          debugPrint('VALIDO');
-                        }
-                      },
-                      child: const Text('Salvar'),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            debugPrint('VALIDO');
+                          }
+                        },
+                        child: const Text(
+                          'Salvar',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

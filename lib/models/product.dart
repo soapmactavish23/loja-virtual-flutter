@@ -7,12 +7,19 @@ class Product extends ChangeNotifier {
   String id = "";
   String name = "";
   String description = "";
-  List<String> images = [];
-  List<ItemSize> sizes = [];
+  List<dynamic>? images = [];
+  List<ItemSize>? sizes = [];
 
   ItemSize? _selectedSize = null;
 
   ItemSize? get selectedSize => _selectedSize;
+
+  Product(
+      {this.id = "", this.name = "", this.description = "", images, sizes}) {
+    debugPrint(images.toString());
+    this.images = images ?? [];
+    this.sizes = sizes ?? [];
+  }
 
   set selectedSize(item) {
     _selectedSize = item;
@@ -31,7 +38,7 @@ class Product extends ChangeNotifier {
 
   int get totalStocks {
     int stock = 0;
-    for (final size in sizes) {
+    for (final size in sizes!) {
       stock += size.stock!;
     }
     return stock;
@@ -43,7 +50,7 @@ class Product extends ChangeNotifier {
 
   num get basePrice {
     num lowest = double.infinity;
-    for (final size in sizes) {
+    for (final size in sizes!) {
       if (size.price! < lowest && size.hasStock) {
         lowest = size.price!;
       }
@@ -53,10 +60,20 @@ class Product extends ChangeNotifier {
 
   ItemSize? findSize(String name) {
     try {
-      return sizes.firstWhere((s) => s.name == name);
+      return sizes!.firstWhere((s) => s.name == name);
     } catch (e) {
       return null;
     }
+  }
+
+  Product clone() {
+    return Product(
+      id: id,
+      name: name,
+      description: description,
+      images: List.from(images!),
+      sizes: sizes!.map((size) => size.clone()).toList(),
+    );
   }
 
   @override
