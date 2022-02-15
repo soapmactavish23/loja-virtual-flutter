@@ -10,6 +10,8 @@ class Product extends ChangeNotifier {
   List<dynamic>? images = [];
   List<ItemSize>? sizes = [];
 
+  List<dynamic>? newImages = [];
+
   ItemSize? _selectedSize = null;
 
   ItemSize? get selectedSize => _selectedSize;
@@ -78,6 +80,6 @@ class Product extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, description: $description, images: $images, sizes: $sizes, _selectedSize: $_selectedSize)';
+    return 'Product(id: $id, name: $name, description: $description, images: $images, sizes: $sizes, newImages: $newImages)';
   }
 }

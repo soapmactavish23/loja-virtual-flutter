@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loja_virtual/common/custom_icon_buttom.dart';
 import 'package:loja_virtual/models/item_size.dart';
 
@@ -70,13 +72,25 @@ class EditItemSize extends StatelessWidget {
               prefixText: 'R\$',
             ),
             keyboardType: TextInputType.number,
+            // inputFormatters: [
+            //   FilteringTextInputFormatter.digitsOnly,
+            //   RealInputFormatter(
+            //     moeda: false,
+            //   )
+            // ],
             validator: (price) {
               if (num.tryParse(price!) == null || num.tryParse(price) == 0) {
                 return 'Inválido';
               }
               return null;
             },
-            onChanged: (price) => size.price = num.parse(price),
+            onChanged: (price) {
+              if (price.isNotEmpty) {
+                size.price = num.parse(price);
+              } else {
+                size.price = 0;
+              }
+            },
           ),
         ),
         CustomIconButton(
