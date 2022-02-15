@@ -32,11 +32,20 @@ class Product extends ChangeNotifier {
     id = document.id;
     name = document['name'] as String;
     description = document['description'] as String;
-    images = List<String>.from(document['images'] as List<dynamic>);
+    print(document['images']);
+    try {
+      images = List<String>.from(document['images'] as List<dynamic>);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
     sizes = (document['sizes'] as List<dynamic>)
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
   }
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  DocumentReference get firestoreRef => firestore.doc('products/$id');
 
   int get totalStocks {
     int stock = 0;
@@ -66,6 +75,26 @@ class Product extends ChangeNotifier {
     } catch (e) {
       return null;
     }
+  }
+
+  List<Map<String, dynamic>> exportSizeList() {
+    return sizes!.map((size) => size.toMap()).toList();
+  }
+
+  Future<void> save() async {
+    final Map<String, dynamic> data = {
+      'name': name,
+      'description': description,
+      'sizes': exportSizeList(),
+    };
+
+    if (id == "") {
+      final doc = await firestore.collection('products').add(data);
+      id = doc.id;
+    } else {
+      firestoreRef.update(data);
+    }
+    notifyListeners();
   }
 
   Product clone() {
