@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual/models/section.dart';
 
-class HomeManager extends ChangeNotifier{
+class HomeManager extends ChangeNotifier {
   HomeManager() {
     _loadSections();
   }
@@ -10,6 +10,8 @@ class HomeManager extends ChangeNotifier{
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<Section> sections = [];
+
+  bool editing = false;
 
   Future<void> _loadSections() async {
     firestore.collection("home").snapshots().listen((snapshot) {
@@ -20,9 +22,23 @@ class HomeManager extends ChangeNotifier{
         }
         notifyListeners();
       } catch (e) {
-        // ignore: avoid_print
-        print(e);
+        debugPrint(e.toString());
       }
     });
+  }
+
+  void enterEditing() {
+    editing = true;
+    notifyListeners();
+  }
+
+  void saveEditing() {
+    editing = false;
+    notifyListeners();
+  }
+
+  void discartEditing() {
+    editing = false;
+    notifyListeners();
   }
 }
