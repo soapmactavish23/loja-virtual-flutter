@@ -8,8 +8,8 @@ class Section {
   List<SectionItem> items = [];
 
   Section({
-    required this.name,
-    required this.type,
+    this.name = "",
+    this.type = "",
     required this.items,
   });
 

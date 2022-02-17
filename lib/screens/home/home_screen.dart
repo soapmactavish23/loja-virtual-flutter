@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/common/custom_drawer/custom_drawer.dart';
 import 'package:loja_virtual/models/home_manager.dart';
 import 'package:loja_virtual/models/user_manager.dart';
+import 'package:loja_virtual/screens/home/components/add_section_widget.dart';
 import 'package:loja_virtual/screens/home/components/section_list.dart';
 import 'package:loja_virtual/screens/home/components/section_staggered.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,12 @@ class HomeScreen extends StatelessWidget {
                         return Container();
                     }
                   }).toList();
+
+                  if (homeManager.editing)
+                    children.add(AddSectionWidget(
+                      homeManager: homeManager,
+                    ));
+
                   return SliverList(
                     delegate: SliverChildListDelegate(children),
                   );
