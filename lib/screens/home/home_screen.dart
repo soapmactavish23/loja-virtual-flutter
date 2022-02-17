@@ -57,8 +57,8 @@ class HomeScreen extends StatelessWidget {
                           onPressed: homeManager.enterEditing,
                         );
                       }
-                    } else
-                      return Container();
+                    }
+                    return Container();
                   })
                 ],
               ),
