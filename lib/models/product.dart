@@ -103,11 +103,26 @@ class Product extends ChangeNotifier {
       } else {
         UploadTask task =
             storageRef.child(const Uuid().v1()).putFile(newImage as File);
-        final TaskSnapshot snapshot = await task.then((p0) => p0);
+
+        TaskSnapshot snapshot =
+            await task.then((TaskSnapshot snapshot) => snapshot);
         final String url = await snapshot.ref.getDownloadURL();
         updateImages.add(url);
       }
     }
+
+    for (final image in images!) {
+      if (!newImages!.contains(image)) {
+        try {
+          final ref = storage.refFromURL(image);
+          await ref.delete();
+        } catch (e) {
+          debugPrint('Falha ao deletar: $image');
+        }
+      }
+    }
+
+    await firestoreRef.update({'images': updateImages});
 
     notifyListeners();
   }
