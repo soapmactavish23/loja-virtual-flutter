@@ -48,9 +48,14 @@ class ProductManager extends ChangeNotifier {
     try {
       return allProducts.firstWhere((p) => p.id == id);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return null;
     }
   }
 
+  void update(Product product) {
+    allProducts.removeWhere((p) => p.id == product.id);
+    allProducts.add(product);
+    notifyListeners();
+  }
 }

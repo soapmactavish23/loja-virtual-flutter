@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/product.dart';
+import 'package:loja_virtual/models/product_manager.dart';
 import 'package:loja_virtual/screens/edit_product/components/images_form.dart';
 import 'package:loja_virtual/screens/edit_product/components/sizes_form.dart';
+import 'package:provider/provider.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(Product p, {Key? key})
@@ -16,8 +18,9 @@ class EditProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(product.toString());
-    return Scaffold(
+    return ChangeNotifierProvider.value(
+      value: product,
+      child: Scaffold(
         appBar: AppBar(
           title: Text(editing ? 'Editar Produto' : 'Criar Produto'),
           centerTitle: true,
@@ -107,28 +110,44 @@ class EditProductScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    SizedBox(
-                      height: 44,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            formKey.currentState!.save();
-                            product.save();
-                          }
-                        },
-                        child: const Text(
-                          'Salvar',
-                          style: TextStyle(
-                            fontSize: 18.0,
+                    Consumer<Product>(
+                      builder: (_, product, __) {
+                        return SizedBox(
+                          height: 44,
+                          child: ElevatedButton(
+                            onPressed: !product.loading
+                                ? () async {
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save();
+                                      await product.save();
+                                      context
+                                          .read<ProductManager>()
+                                          .update(product);
+                                      Navigator.pop(context);
+                                    }
+                                  }
+                                : null,
+                            child: product.loading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text(
+                                    'Salvar',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
