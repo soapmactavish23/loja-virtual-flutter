@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual/models/item_size.dart';
+import 'package:uuid/uuid.dart';
 
 class Product extends ChangeNotifier {
   String id = "";
@@ -39,7 +42,10 @@ class Product extends ChangeNotifier {
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
   DocumentReference get firestoreRef => firestore.doc('products/$id');
+  Reference get storageRef => storage.ref('products').child(id);
 
   int get totalStocks {
     int stock = 0;
@@ -88,6 +94,21 @@ class Product extends ChangeNotifier {
     } else {
       firestoreRef.update(data);
     }
+
+    final List<String> updateImages = [];
+
+    for (final newImage in newImages!) {
+      if (images!.contains(newImage)) {
+        updateImages.add(newImage as String);
+      } else {
+        UploadTask task =
+            storageRef.child(const Uuid().v1()).putFile(newImage as File);
+        final TaskSnapshot snapshot = await task.then((p0) => p0);
+        final String url = await snapshot.ref.getDownloadURL();
+        updateImages.add(url);
+      }
+    }
+
     notifyListeners();
   }
 
