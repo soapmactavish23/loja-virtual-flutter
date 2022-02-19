@@ -39,7 +39,11 @@ class ImageSourceSheet extends StatelessWidget {
             onPressed: () async {
               final XFile? file =
                   await picker.pickImage(source: ImageSource.camera);
-              editImage(file!.path, context);
+              try {
+                editImage(file!.path, context);
+              } catch (e) {
+                debugPrint(e.toString());
+              }
             },
             child: const Text("Câmera"),
           ),
@@ -47,7 +51,11 @@ class ImageSourceSheet extends StatelessWidget {
             onPressed: () async {
               final XFile? file =
                   await picker.pickImage(source: ImageSource.gallery);
-              editImage(file!.path, context);
+              try {
+                editImage(file!.path, context);
+              } catch (e) {
+                debugPrint(e.toString());
+              }
             },
             child: const Text("Galeria"),
           ),

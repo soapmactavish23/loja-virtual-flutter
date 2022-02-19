@@ -4,6 +4,7 @@ import 'package:loja_virtual/models/section.dart';
 import 'package:loja_virtual/screens/home/components/add_tile_widget.dart';
 import 'package:loja_virtual/screens/home/components/item_tile.dart';
 import 'package:loja_virtual/screens/home/components/section_header.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
 class SectionList extends StatelessWidget {
@@ -15,34 +16,43 @@ class SectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
 
-    return Container(
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionHeader(
-            section: section,
-          ),
-          SizedBox(
-            height: 150,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (_, __) => const SizedBox(
-                width: 4,
-              ),
-              itemCount: homeManager.editing
-                  ? section.items.length + 1
-                  : section.items.length,
-              itemBuilder: (_, index) {
-                if (index < section.items.length) {
-                  return ItemTile(item: section.items[index]);
-                } else {
-                  return AddTileWidget();
-                }
-              },
+    return ChangeNotifierProvider.value(
+      value: section,
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+              section: section,
             ),
-          )
-        ],
+            SizedBox(
+              height: 150,
+              child: Consumer<Section>(
+                builder: (_, section, __) {
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_, __) => const SizedBox(
+                      width: 4,
+                    ),
+                    itemCount: homeManager.editing
+                        ? section.items.length + 1
+                        : section.items.length,
+                    itemBuilder: (_, index) {
+                      if (index < section.items.length) {
+                        return ItemTile(item: section.items[index]);
+                      } else {
+                        return AddTileWidget(
+                          section: section,
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

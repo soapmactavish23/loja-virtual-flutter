@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:loja_virtual/models/section_item.dart';
 
-class Section {
+class Section extends ChangeNotifier {
   String name = "";
   String type = "";
   List<SectionItem> items = [];
@@ -12,6 +13,11 @@ class Section {
     this.type = "",
     required this.items,
   });
+
+  void addItem(SectionItem item) {
+    items.add(item);
+    notifyListeners();
+  }
 
   Section.fromDocument(DocumentSnapshot document) {
     name = document['name'] as String;

@@ -1,5 +1,5 @@
 class SectionItem {
-  String image = "";
+  dynamic image = "";
   String product = "";
 
   SectionItem({

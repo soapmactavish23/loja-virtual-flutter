@@ -1,14 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/models/section.dart';
+import 'package:loja_virtual/models/section_item.dart';
 import 'package:loja_virtual/screens/edit_product/components/image_source_sheet.dart';
 
 class AddTileWidget extends StatelessWidget {
-  const AddTileWidget({Key? key}) : super(key: key);
+
+  final Section section;
+
+  const AddTileWidget({Key? key, required this.section}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    void onImageSelected(File file) {}
+    void onImageSelected(File file) {
+      section.addItem(SectionItem(image: file, product: ""));
+      Navigator.of(context).pop();
+    }
 
     return AspectRatio(
       aspectRatio: 1,
