@@ -19,6 +19,11 @@ class Section extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeItem(SectionItem item) {
+    items.remove(item);
+    notifyListeners();
+  }
+
   Section.fromDocument(DocumentSnapshot document) {
     name = document['name'] as String;
     type = document['type'] as String;
