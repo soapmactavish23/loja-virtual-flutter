@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/home_manager.dart';
+import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/product_manager.dart';
 import 'package:loja_virtual/models/section.dart';
 import 'package:loja_virtual/models/section_item.dart';
@@ -32,8 +33,20 @@ class ItemTile extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (_) {
+                    final product = context
+                        .read<ProductManager>()
+                        .findProductById(item.product);
                     return AlertDialog(
                       title: const Text("Editar item"),
+                      content: product != null
+                          ? ListTile(
+                              contentPadding: const EdgeInsets.all(0.0),
+                              leading: Image.network(product.images!.first),
+                              title: Text(product.name),
+                              subtitle: Text(
+                                  'R\$ ${product.basePrice.toStringAsFixed(2)}'),
+                            )
+                          : null,
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -46,8 +59,21 @@ class ItemTile extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
-                          child: const Text("Desvincular"),
+                          onPressed: () async {
+                            if (product != null) {
+                              item.product = '';
+                            } else {
+                              final Product? product = await Navigator.pushNamed(
+                                      context, "/select_product")
+                                  .then((value) => value as Product?);
+                              if (product != null) {
+                                item.product = product.id;
+                              }
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                              product != null ? "Desvincular" : 'Vincular'),
                         ),
                       ],
                     );
