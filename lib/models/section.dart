@@ -8,6 +8,13 @@ class Section extends ChangeNotifier {
   String type = "";
   List<SectionItem> items = [];
 
+  String _error = "";
+  String get error => _error;
+  set error(String value) {
+    _error = value;
+    notifyListeners();
+  }
+
   Section({
     this.name = "",
     this.type = "",
@@ -29,6 +36,18 @@ class Section extends ChangeNotifier {
     type = document['type'] as String;
     items =
         (document['items'] as List).map((i) => SectionItem.fromMap(i)).toList();
+  }
+
+  bool valid() {
+    if(name == '' || name.isEmpty) {
+      error = 'Título inválido';
+    } else if(items.isEmpty) {
+      error = 'Insira ao menos uma imagem';
+    } else {
+      error = '';
+    }
+    notifyListeners();
+    return error == '';
   }
 
   Section clone() {

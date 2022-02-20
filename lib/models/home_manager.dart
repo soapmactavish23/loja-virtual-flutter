@@ -9,7 +9,7 @@ class HomeManager extends ChangeNotifier {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  List<Section> _sections = [];
+  final List<Section> _sections = [];
 
   List<Section> _editingSections = [];
 
@@ -53,7 +53,19 @@ class HomeManager extends ChangeNotifier {
   }
 
   void saveEditing() {
-    editing = false;
+    bool valid = true;
+    for (final section in _editingSections) {
+      if (!section.valid()) valid = false;
+    }
+    if (!valid) {
+      notifyListeners();
+      return;
+    }
+    print('salvar');
+
+    //TODO: SALVAMENTO
+
+    // editing = false;
     notifyListeners();
   }
 
