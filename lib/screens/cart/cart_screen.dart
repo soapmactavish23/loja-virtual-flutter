@@ -16,7 +16,6 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer<CartManager>(
         builder: (_, cartManager, __) {
-          print(cartManager.isCartValid);
           return ListView(children: [
             Column(
               children: cartManager.items
@@ -25,7 +24,11 @@ class CartScreen extends StatelessWidget {
             ),
             PriceCard(
               buttonText: 'Continuar para Entrega',
-              onPressed: cartManager.isCartValid == true ? () {} : null,
+              onPressed: cartManager.isCartValid == true
+                  ? () {
+                      Navigator.pushNamed(context, "/address");
+                    }
+                  : null,
             ),
           ]);
         },

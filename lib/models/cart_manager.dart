@@ -76,10 +76,14 @@ class CartManager extends ChangeNotifier {
   }
 
   void _updatedCartProduct(CartProduct cartProduct) {
-    if (cartProduct.id != null) {
-      user!.cartReference
-          .doc(cartProduct.id)
-          .update(cartProduct.toCartItemMap());
+    if (cartProduct.id != '') {
+      try {
+        user!.cartReference
+            .doc(cartProduct.id)
+            .update(cartProduct.toCartItemMap());
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     }
   }
 
