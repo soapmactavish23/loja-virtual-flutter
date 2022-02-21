@@ -8,16 +8,19 @@ import 'package:loja_virtual/screens/home/components/section_staggered.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
               Theme.of(context).primaryColor,
+              // ignore: deprecated_member_use
               Theme.of(context).accentColor,
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           ),
@@ -39,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Consumer2<UserManager, HomeManager>(
                       builder: (_, userManager, homeManager, __) {
-                    if (userManager.adminEnabled) {
+                    if (userManager.adminEnabled && !homeManager.loading) {
                       if (homeManager.editing) {
                         return PopupMenuButton(onSelected: (e) {
                           if (e == "Salvar") {
@@ -65,6 +68,14 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer<HomeManager>(
                 builder: (_, homeManager, __) {
+                  if (homeManager.loading) {
+                    return const SliverToBoxAdapter(
+                      child: LinearProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: Colors.transparent,
+                      ),
+                    );
+                  }
                   final List<Widget> children =
                       homeManager.sections.map<Widget>((section) {
                     switch (section.type) {
@@ -82,6 +93,7 @@ class HomeScreen extends StatelessWidget {
                   }).toList();
 
                   if (homeManager.editing)
+                    // ignore: curly_braces_in_flow_control_structures
                     children.add(AddSectionWidget(
                       homeManager: homeManager,
                     ));

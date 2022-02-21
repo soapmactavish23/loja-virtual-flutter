@@ -54,10 +54,11 @@ class Section extends ChangeNotifier {
         (document['items'] as List).map((i) => SectionItem.fromMap(i)).toList();
   }
 
-  Future<void> save() async {
+  Future<void> save(int pos) async {
     Map<String, dynamic> data = {
       'name': name,
       'type': type,
+      'pos': pos,
     };
 
     if (id == '') {
@@ -94,6 +95,18 @@ class Section extends ChangeNotifier {
     };
 
     await firestoreRef.update(itemsData);
+  }
+
+  Future<void> delete() async {
+    await firestoreRef.delete();
+    for (final item in items) {
+      try {
+        final ref = storage.refFromURL(item.image as String);
+        await ref.delete();
+      } catch (e) {
+        debugPrint('Falha ao deletar $item');
+      }
+    }
   }
 
   bool valid() {
