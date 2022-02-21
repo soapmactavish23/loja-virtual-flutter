@@ -61,13 +61,12 @@ class HomeManager extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    print('salvar');
 
-    for(final section in _editingSections) {
+    for (final section in _editingSections) {
       await section.save();
     }
 
-    // editing = false;
+    editing = false;
     notifyListeners();
   }
 

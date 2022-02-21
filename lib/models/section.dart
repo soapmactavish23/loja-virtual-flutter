@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:loja_virtual/models/section_item.dart';
+import 'package:uuid/uuid.dart';
 
 class Section extends ChangeNotifier {
   String id = "";
   String name = "";
   String type = "";
   List<SectionItem> items = [];
+  List<SectionItem> originalItems = [];
 
   String _error = "";
   String get error => _error;
@@ -17,14 +22,19 @@ class Section extends ChangeNotifier {
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
   DocumentReference get firestoreRef => firestore.doc('home/$id');
+  Reference get storageRef => storage.ref().child('home').child(id);
 
   Section({
     this.id = '',
     this.name = "",
     this.type = "",
     required this.items,
-  });
+  }) {
+    originalItems = List.from(items);
+  }
 
   void addItem(SectionItem item) {
     items.add(item);
@@ -56,6 +66,34 @@ class Section extends ChangeNotifier {
     } else {
       await firestoreRef.update(data);
     }
+
+    for (final item in items) {
+      if (item.image is File) {
+        UploadTask task =
+            storageRef.child(const Uuid().v1()).putFile(item.image as File);
+        TaskSnapshot snapshot =
+            await task.then((TaskSnapshot snapshot) => snapshot);
+        final String url = await snapshot.ref.getDownloadURL();
+        item.image = url;
+      }
+    }
+
+    for (final original in originalItems) {
+      if (!items.contains(original)) {
+        try {
+          final ref = storage.refFromURL(original.image);
+          await ref.delete();
+        } catch (e) {
+          debugPrint('Falha ao deletar: $original');
+        }
+      }
+    }
+
+    final Map<String, dynamic> itemsData = {
+      'items': items.map((e) => e.toMap()).toList(),
+    };
+
+    await firestoreRef.update(itemsData);
   }
 
   bool valid() {
