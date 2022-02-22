@@ -1,24 +1,33 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:loja_virtual/models/via_cep_address.dart';
+import 'package:loja_virtual/models/cep_aberto_address.dart';
+
+const token = 'faa665cf0cb302b6a45e6f490110e334';
 
 class ViaCepService {
-  Future<ViaCepAddress?> getAddressFromCep(String cep) async {
-    String cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
-    try {
-      String url = 'https://viacep.com.br/ws/$cleanCep/json/';
-      var response = await Dio().get(url);
+  Future<CepAbertoAddress> getAddressFromCep(String cep) async {
+    final cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
+    final endpoint = "https://www.cepaberto.com/api/v3/cep?cep=$cleanCep";
 
-      if (response.data.isEmpty) {
+    final Dio dio = Dio();
+
+    dio.options.headers[HttpHeaders.authorizationHeader] = 'Token token=$token';
+
+    try {
+      final response = await dio.get<Map<String, dynamic>>(endpoint);
+
+      if (response.data!.isEmpty) {
         return Future.error('CEP Inválido');
       }
-      ViaCepAddress address =
-          ViaCepAddress.fromJson(json.encode(response.data));
+
+      final CepAbertoAddress address = CepAbertoAddress.fromMap(response.data!);
+
       return address;
     } on DioError catch (e) {
-      return Future.error('Erro ao buscar CEP: $e');
+      return Future.error('Erro ao buscar CEP');
     }
   }
 }
