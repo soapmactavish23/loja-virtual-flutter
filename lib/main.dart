@@ -6,6 +6,7 @@ import 'package:loja_virtual/models/home_manager.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/product_manager.dart';
 import 'package:loja_virtual/models/user_manager.dart';
+import 'package:loja_virtual/models/via_cep_address.dart';
 import 'package:loja_virtual/screens/address/address_screen.dart';
 import 'package:loja_virtual/screens/base/base_screen.dart';
 import 'package:loja_virtual/screens/cart/cart_screen.dart';
@@ -23,7 +24,7 @@ void main() async {
 
   runApp(const MyApp());
 
-  ViaCepService().getAddressFromCep('66.615-026');
+  ViaCepService().getAddressFromCep('66.615-026').then((value) => print(value));
 }
 
 class MyApp extends StatelessWidget {

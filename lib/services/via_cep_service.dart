@@ -1,18 +1,22 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loja_virtual/models/via_cep_address.dart';
 
 class ViaCepService {
-  Future<void> getAddressFromCep(String cep) async {
+  Future<ViaCepAddress?> getAddressFromCep(String cep) async {
     String cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
-
     try {
-      var response =
-          await Dio().get('https://viacep.com.br/ws/${cleanCep}/json/');
+      String url = 'https://viacep.com.br/ws/$cleanCep/json/';
+      var response = await Dio().get(url);
 
       if (response.data.isEmpty) {
         return Future.error('CEP Inválido');
       }
-      print(response.data);
+      ViaCepAddress address =
+          ViaCepAddress.fromJson(json.encode(response.data));
+      return address;
     } on DioError catch (e) {
       return Future.error('Erro ao buscar CEP: $e');
     }
