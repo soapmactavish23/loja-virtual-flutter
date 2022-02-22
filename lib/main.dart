@@ -14,6 +14,7 @@ import 'package:loja_virtual/screens/login/login_screen.dart';
 import 'package:loja_virtual/screens/product/product_screen.dart';
 import 'package:loja_virtual/screens/select_product/select_product_screen.dart';
 import 'package:loja_virtual/screens/signup/signup_screen.dart';
+import 'package:loja_virtual/services/via_cep_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,6 +22,8 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(const MyApp());
+
+  ViaCepService().getAddressFromCep('66.615-026');
 }
 
 class MyApp extends StatelessWidget {
