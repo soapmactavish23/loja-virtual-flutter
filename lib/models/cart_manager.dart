@@ -4,6 +4,8 @@ import 'package:loja_virtual/models/cart_product.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/models/user_manager.dart';
+import 'package:loja_virtual/models/via_cep_address.dart';
+import 'package:loja_virtual/services/via_cep_service.dart';
 
 class CartManager extends ChangeNotifier {
   List<CartProduct> items = [];
@@ -92,5 +94,16 @@ class CartManager extends ChangeNotifier {
       if (!cartProduct.hasStock) return false;
     }
     return true;
+  }
+
+  Future<void> getAddress(String cep) async {
+    final cepAbertoService = ViaCepService();
+    try {
+      final address = await cepAbertoService.getAddressFromCep(cep);
+
+      print(address);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

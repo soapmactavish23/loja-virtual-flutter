@@ -413,6 +413,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.5"
+  validadores:
+    dependency: "direct main"
+    description:
+      name: validadores
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   vector_math:
     dependency: transitive
     description:

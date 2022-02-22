@@ -10,19 +10,21 @@ class AddressCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Endereço de Entrega',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Endereço de Entrega',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            CepInputField()
-          ],
+              CepInputField()
+            ],
+          ),
         ),
       ),
     );

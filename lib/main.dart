@@ -23,8 +23,6 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(const MyApp());
-
-  ViaCepService().getAddressFromCep('66.615-026').then((value) => print(value));
 }
 
 class MyApp extends StatelessWidget {

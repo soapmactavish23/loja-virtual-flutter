@@ -48,6 +48,7 @@ dependencies:
   firebase_storage: ^10.2.7
   uuid: ^3.0.5
   dio: ^4.0.4
+  validadores: ^1.0.5
 
 dev_dependencies:
   flutter_test:
