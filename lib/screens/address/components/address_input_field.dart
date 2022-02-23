@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual/models/address.dart';
+import 'package:loja_virtual/models/cart_manager.dart';
+import 'package:provider/src/provider.dart';
 import 'package:validadores/validadores.dart';
 
 class AddressInputField extends StatelessWidget {
@@ -10,7 +12,7 @@ class AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (address.zipCode != null)
+    if (address.zipCode != null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -22,7 +24,7 @@ class AddressInputField extends StatelessWidget {
               hintText: 'Av. Brasil',
             ),
             validator: (value) {
-              Validador()
+              return Validador()
                   .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
                   .validar(value);
             },
@@ -43,7 +45,7 @@ class AddressInputField extends StatelessWidget {
                   ],
                   keyboardType: TextInputType.number,
                   validator: (value) {
-                    Validador()
+                    return Validador()
                         .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
                         .validar(value);
                   },
@@ -75,7 +77,7 @@ class AddressInputField extends StatelessWidget {
             ),
             onSaved: (t) => address.district = t,
             validator: (value) {
-              Validador()
+              return Validador()
                   .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
                   .validar(value);
             },
@@ -92,7 +94,7 @@ class AddressInputField extends StatelessWidget {
                     hintText: 'Belém',
                   ),
                   validator: (value) {
-                    Validador()
+                    return Validador()
                         .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
                         .validar(value);
                   },
@@ -111,7 +113,7 @@ class AddressInputField extends StatelessWidget {
                     hintText: 'Pará',
                   ),
                   validator: (value) {
-                    Validador()
+                    return Validador()
                         .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
                         .validar(value);
                   },
@@ -125,11 +127,17 @@ class AddressInputField extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('Calcular Frete'),
-            onPressed: () {},
+            onPressed: () {
+              if (Form.of(context)!.validate()) {
+                Form.of(context)!.save();
+                context.read<CartManager>().setAddress(address);
+              }
+            },
           )
         ],
       );
-    else
+    } else {
       return Container();
+    }
   }
 }
