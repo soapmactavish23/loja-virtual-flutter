@@ -10,123 +10,126 @@ class AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextFormField(
-          initialValue: address.street,
-          decoration: const InputDecoration(
-            isDense: true,
-            labelText: 'Rua/Avenida',
-            hintText: 'Av. Brasil',
+    if (address.zipCode != null)
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextFormField(
+            initialValue: address.street,
+            decoration: const InputDecoration(
+              isDense: true,
+              labelText: 'Rua/Avenida',
+              hintText: 'Av. Brasil',
+            ),
+            validator: (value) {
+              Validador()
+                  .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
+                  .validar(value);
+            },
+            onSaved: (value) => address.street = value,
           ),
-          validator: (value) {
-            Validador()
-                .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
-                .validar(value);
-          },
-          onSaved: (value) => address.street = value,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                initialValue: address.number,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  labelText: 'Número',
-                  hintText: '123',
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  initialValue: address.number,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    labelText: 'Número',
+                    hintText: '123',
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    Validador()
+                        .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
+                        .validar(value);
+                  },
+                  onSaved: (t) => address.number = t,
                 ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  Validador()
-                      .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
-                      .validar(value);
-                },
-                onSaved: (t) => address.number = t,
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Expanded(
-              child: TextFormField(
-                initialValue: address.complement,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  labelText: 'Complemento',
-                  hintText: 'Opcional',
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: TextFormField(
+                  initialValue: address.complement,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    labelText: 'Complemento',
+                    hintText: 'Opcional',
+                  ),
+                  onSaved: (t) => address.complement = t,
                 ),
-                onSaved: (t) => address.complement = t,
               ),
-            ),
-          ],
-        ),
-        TextFormField(
-          initialValue: address.district,
-          decoration: const InputDecoration(
-            isDense: true,
-            labelText: 'Bairro',
-            hintText: 'Guanabara',
+            ],
           ),
-          onSaved: (t) => address.district = t,
-          validator: (value) {
-            Validador()
-                .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
-                .validar(value);
-          },
-        ),
-        Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: TextFormField(
-                initialValue: address.city,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  labelText: 'Cidade',
-                  hintText: 'Belém',
+          TextFormField(
+            initialValue: address.district,
+            decoration: const InputDecoration(
+              isDense: true,
+              labelText: 'Bairro',
+              hintText: 'Guanabara',
+            ),
+            onSaved: (t) => address.district = t,
+            validator: (value) {
+              Validador()
+                  .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
+                  .validar(value);
+            },
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: TextFormField(
+                  initialValue: address.city,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    labelText: 'Cidade',
+                    hintText: 'Belém',
+                  ),
+                  validator: (value) {
+                    Validador()
+                        .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
+                        .validar(value);
+                  },
+                  onSaved: (t) => address.city = t,
                 ),
-                validator: (value) {
-                  Validador()
-                      .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
-                      .validar(value);
-                },
-                onSaved: (t) => address.city = t,
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Expanded(
-              child: TextFormField(
-                initialValue: address.state,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  labelText: 'Estado',
-                  hintText: 'Pará',
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: TextFormField(
+                  initialValue: address.state,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    labelText: 'Estado',
+                    hintText: 'Pará',
+                  ),
+                  validator: (value) {
+                    Validador()
+                        .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
+                        .validar(value);
+                  },
+                  onSaved: (t) => address.state = t,
                 ),
-                validator: (value) {
-                  Validador()
-                      .add(Validar.OBRIGATORIO, msg: 'Campo obrigatório')
-                      .validar(value);
-                },
-                onSaved: (t) => address.state = t,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        ElevatedButton(
-          child: const Text('Calcular Frete'),
-          onPressed: () {},
-        )
-      ],
-    );
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          ElevatedButton(
+            child: const Text('Calcular Frete'),
+            onPressed: () {},
+          )
+        ],
+      );
+    else
+      return Container();
   }
 }

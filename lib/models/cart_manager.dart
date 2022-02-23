@@ -102,6 +102,7 @@ class CartManager extends ChangeNotifier {
     try {
       final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
 
+      // ignore: unnecessary_null_comparison
       if (cepAbertoAddress != null) {
         address = Address(
           street: cepAbertoAddress.logradouro,
@@ -112,11 +113,15 @@ class CartManager extends ChangeNotifier {
           lat: cepAbertoAddress.latitude,
           long: cepAbertoAddress.longitude,
         );
-        print(address!.district);
         notifyListeners();
       }
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  void removeAddress() {
+    address = null;
+    notifyListeners();
   }
 }
