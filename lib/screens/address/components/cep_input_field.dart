@@ -42,9 +42,20 @@ class CepInputField extends StatelessWidget {
           ElevatedButton(
             child:
                 const Text('Buscar CEP', style: TextStyle(color: Colors.white)),
-            onPressed: () {
+            onPressed: () async {
               if (Form.of(context)!.validate()) {
-                context.read<CartManager>().getAddress(cepController.text);
+                try {
+                  await context
+                      .read<CartManager>()
+                      .getAddress(cepController.text);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               }
             },
           ),
