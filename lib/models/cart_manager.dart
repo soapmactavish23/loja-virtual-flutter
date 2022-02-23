@@ -112,6 +112,7 @@ class CartManager extends ChangeNotifier {
           lat: cepAbertoAddress.latitude,
           long: cepAbertoAddress.longitude,
         );
+        print(address!.district);
         notifyListeners();
       }
     } catch (e) {

@@ -24,7 +24,7 @@ class ViaCepService {
       }
 
       final CepAbertoAddress address = CepAbertoAddress.fromMap(response.data!);
-
+      print(address);
       return address;
     } on DioError catch (e) {
       return Future.error('Erro ao buscar CEP');
