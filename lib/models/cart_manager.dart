@@ -16,6 +16,7 @@ class CartManager extends ChangeNotifier {
 
   num productsPrice = 0.0;
   num deliveryPrice = 0.0;
+  num get totalPrice => productsPrice + deliveryPrice;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -101,6 +102,8 @@ class CartManager extends ChangeNotifier {
     return true;
   }
 
+  bool get isAddressValid => address != null && deliveryPrice != 0.0;
+
   Future<void> getAddress(String cep) async {
     final cepAbertoService = ViaCepService();
 
@@ -130,6 +133,7 @@ class CartManager extends ChangeNotifier {
 
     if (await calculateDelivery(address.lat!, address.long!)) {
       print('price $deliveryPrice');
+      notifyListeners();
     } else {
       return Future.error('Endereço fora do raio de entrega :(');
     }
@@ -137,6 +141,7 @@ class CartManager extends ChangeNotifier {
 
   void removeAddress() {
     address = null;
+    deliveryPrice = 0.0;
     notifyListeners();
   }
 

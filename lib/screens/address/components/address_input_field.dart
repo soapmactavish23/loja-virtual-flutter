@@ -12,7 +12,9 @@ class AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (address.zipCode != null) {
+    final cartManager = context.watch<CartManager>();
+
+    if (address.zipCode != null && cartManager.deliveryPrice == 0.0) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -144,6 +146,13 @@ class AddressInputField extends StatelessWidget {
             },
           )
         ],
+      );
+    } else if(address.zipCode != null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Text(
+          '${address.street}, ${address.number}\n${address.district}\n${address.city} - ${address.state}',
+        ),
       );
     } else {
       return Container();

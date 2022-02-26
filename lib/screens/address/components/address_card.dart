@@ -13,8 +13,9 @@ class AddressCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-          child: Consumer<CartManager>(builder: (_, cartManager, __) {
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+        child: Consumer<CartManager>(
+          builder: (_, cartManager, __) {
             final address = cartManager.address ?? Address();
             return Form(
               child: Column(
@@ -33,7 +34,9 @@ class AddressCard extends StatelessWidget {
                 ],
               ),
             );
-          })),
+          },
+        ),
+      ),
     );
   }
 }
