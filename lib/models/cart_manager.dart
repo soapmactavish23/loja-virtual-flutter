@@ -31,9 +31,12 @@ class CartManager extends ChangeNotifier {
   void updateUser(UserManager userManager) {
     user = userManager.user;
     items.clear();
+    productsPrice = 0.0;
+    removeAddress();
 
     if (user != null) {
       _loadCartItems();
+      _loadUserAddress();
     }
   }
 
@@ -45,6 +48,14 @@ class CartManager extends ChangeNotifier {
           .toList();
     } catch (e) {
       debugPrint("CartManager: $e");
+    }
+  }
+
+  Future<void> _loadUserAddress() async {
+    if (user!.address != null &&
+        await calculateDelivery(user!.address!.lat!, user!.address!.long!)) {
+      address = user!.address;
+      notifyListeners();
     }
   }
 
@@ -143,6 +154,7 @@ class CartManager extends ChangeNotifier {
     this.address = address;
     _loading = true;
     if (await calculateDelivery(address.lat!, address.long!)) {
+      user!.setAddress(address);
       _loading = false;
       notifyListeners();
     } else {
@@ -150,7 +162,6 @@ class CartManager extends ChangeNotifier {
       notifyListeners();
       return Future.error('Endereço fora do raio de entrega :(');
     }
-    
   }
 
   void removeAddress() {
