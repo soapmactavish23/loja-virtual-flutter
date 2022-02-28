@@ -11,19 +11,26 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       create: (_) => CheckoutManager(),
-      update: (_, cartManager, checkoutManager) => checkoutManager!..updateCart(cartManager),
+      update: (_, cartManager, checkoutManager) =>
+          checkoutManager!..updateCart(cartManager),
       lazy: false,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Pagamento'),
           centerTitle: true,
         ),
-        body: ListView(children: [
-          PriceCard(
-            buttonText: 'Finalizar Pedido',
-            onPressed: () {},
-          )
-        ]),
+        body: Consumer<CheckoutManager>(
+          builder: (_, checkoutManager, __) {
+            return ListView(children: [
+              PriceCard(
+                buttonText: 'Finalizar Pedido',
+                onPressed: () {
+                  checkoutManager.checkout();
+                },
+              )
+            ]);
+          },
+        ),
       ),
     );
   }
