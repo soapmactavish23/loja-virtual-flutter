@@ -21,7 +21,9 @@ class AddressScreen extends StatelessWidget {
             builder: (_, cartManager, __) {
               return PriceCard(
                 buttonText: 'Continuar para o Pagamento',
-                onPressed: cartManager.isAddressValid ? () {} : null,
+                onPressed: cartManager.isAddressValid ? () {
+                  Navigator.pushNamed(context, '/checkout');
+                } : null,
               );
             },
           ),
