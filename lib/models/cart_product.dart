@@ -49,7 +49,19 @@ class CartProduct extends ChangeNotifier {
   num get totalPrice => unitPrice * quantity;
 
   Map<String, dynamic> toCartItemMap() {
-    return {'pid': productId, 'quantity': quantity, 'size': size};
+    return {
+      'pid': productId,
+      'quantity': quantity,
+      'size': size,
+    };
+  }
+  
+  Map<String, dynamic> toOrderItemMap() {
+    return {
+      'pid': productId,
+      'quantity': quantity,
+      'size': size,
+    };
   }
 
   bool stackable(Product product) {
