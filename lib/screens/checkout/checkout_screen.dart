@@ -9,12 +9,15 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       create: (_) => CheckoutManager(),
       update: (_, cartManager, checkoutManager) =>
           checkoutManager!..updateCart(cartManager),
       lazy: false,
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           title: const Text('Pagamento'),
           centerTitle: true,
@@ -25,7 +28,15 @@ class CheckoutScreen extends StatelessWidget {
               PriceCard(
                 buttonText: 'Finalizar Pedido',
                 onPressed: () {
-                  checkoutManager.checkout();
+                  checkoutManager.checkout(
+                    onStockFail: (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('$e'),
+                        backgroundColor: Colors.red,
+                      ));
+                      Navigator.popUntil(context, (route) => route.settings.name == '/cart');
+                    },
+                  );
                 },
               )
             ]);
