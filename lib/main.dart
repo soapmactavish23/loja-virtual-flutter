@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:loja_virtual/models/admin_user_manager.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/home_manager.dart';
+import 'package:loja_virtual/models/orders_manager.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/product_manager.dart';
 import 'package:loja_virtual/models/user_manager.dart';
@@ -56,7 +57,13 @@ class MyApp extends StatelessWidget {
           lazy: false,
           update: (_, userManager, adminUserManager) =>
               adminUserManager!..updateUser(userManager),
-        )
+        ),
+        ChangeNotifierProxyProvider<UserManager, OrdersManager>(
+          create: (_) => OrdersManager(),
+          lazy: false,
+          update: (_, userManager, ordersManager) =>
+              ordersManager!..updateUser(userManager.user),
+        ),
       ],
       child: MaterialApp(
         title: 'Loja da SH',
