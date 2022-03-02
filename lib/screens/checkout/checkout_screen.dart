@@ -24,22 +24,52 @@ class CheckoutScreen extends StatelessWidget {
         ),
         body: Consumer<CheckoutManager>(
           builder: (_, checkoutManager, __) {
-            return ListView(children: [
-              PriceCard(
-                buttonText: 'Finalizar Pedido',
-                onPressed: () {
-                  checkoutManager.checkout(
-                    onStockFail: (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('$e'),
-                        backgroundColor: Colors.red,
-                      ));
-                      Navigator.popUntil(context, (route) => route.settings.name == '/cart');
-                    },
-                  );
-                },
-              )
-            ]);
+            if (checkoutManager.loading) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'Processando seu pagamento...',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16),
+                    )
+                  ],
+                ),
+              );
+            }
+            return ListView(
+              children: [
+                PriceCard(
+                  buttonText: 'Finalizar Pedido',
+                  onPressed: () {
+                    checkoutManager.checkout(
+                      onStockFail: (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('$e'),
+                          backgroundColor: Colors.red,
+                        ));
+                        Navigator.popUntil(
+                            context, (route) => route.settings.name == '/cart');
+                      },
+                      onSuccess: () {
+                        Navigator.popUntil(
+                            context, (route) => route.settings.name == '/base');
+                      }
+                    );
+                  },
+                )
+              ],
+            );
           },
         ),
       ),
