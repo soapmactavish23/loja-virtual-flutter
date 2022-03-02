@@ -44,6 +44,8 @@ class Order {
 
   Timestamp? date;
 
+  String get formattedId => '#${orderId.padLeft(6, '0')}';
+
   @override
   String toString() {
     return 'Order(orderId: $orderId, items: $items, price: $price, userId: $userId, date: $date)';

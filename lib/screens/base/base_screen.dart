@@ -4,6 +4,7 @@ import 'package:loja_virtual/models/page_manager.dart';
 import 'package:loja_virtual/models/user_manager.dart';
 import 'package:loja_virtual/screens/admin_users/admin_users_screens.dart';
 import 'package:loja_virtual/screens/home/home_screen.dart';
+import 'package:loja_virtual/screens/orders/orders_screen.dart';
 import 'package:loja_virtual/screens/products/products_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,14 +23,9 @@ class BaseScreen extends StatelessWidget {
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              HomeScreen(),
+              const HomeScreen(),
               const ProductsScreen(),
-              Scaffold(
-                drawer: const CustomDrawer(),
-                appBar: AppBar(
-                  title: const Text('Meus Pedidos'),
-                ),
-              ),
+              const OrdersScreen(),
               Scaffold(
                 drawer: const CustomDrawer(),
                 appBar: AppBar(
