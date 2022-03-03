@@ -22,7 +22,6 @@ class CheckoutManager extends ChangeNotifier {
   }
 
   Future<void> checkout({Function? onStockFail, Function? onSuccess}) async {
-
     loading = true;
     try {
       await _decrementStock();
@@ -32,7 +31,6 @@ class CheckoutManager extends ChangeNotifier {
       return;
     }
 
-    //TODO: PROCESSAR PAGAMENTO
     final orderId = await _getOrderId();
 
     final order = Order.fromCartManager(cartManager!);
@@ -41,7 +39,7 @@ class CheckoutManager extends ChangeNotifier {
     await order.save();
 
     cartManager!.clear();
-    onSuccess!();
+    onSuccess!(order);
     loading = false;
   }
 
