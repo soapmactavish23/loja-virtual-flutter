@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/common/custom_drawer/custom_drawer.dart';
 import 'package:loja_virtual/common/empty_card.dart';
 import 'package:loja_virtual/models/orders_manager.dart';
-import 'package:loja_virtual/common/order_tile.dart';
+import 'package:loja_virtual/common/order/order_tile.dart';
 import 'package:provider/provider.dart';
 
 class AdminOrdersScreen extends StatelessWidget {
@@ -30,6 +30,7 @@ class AdminOrdersScreen extends StatelessWidget {
             itemBuilder: (_, index) {
               return OrderTile(
                 order: ordersManager.orders.reversed.toList()[index],
+                showControls: true,
               );
             },
           );

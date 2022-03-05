@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 class PageManager {
-
   PageManager(this._pageController);
 
   final PageController _pageController;
@@ -9,9 +8,10 @@ class PageManager {
   int page = 0;
 
   void setPage(int value) {
-    if(value == page) return;
-    page = value;
-    _pageController.jumpToPage(value);
+    try {
+      if (value == page) return;
+      page = value;
+      _pageController.jumpToPage(value);
+    } catch (e) {}
   }
-
 }
