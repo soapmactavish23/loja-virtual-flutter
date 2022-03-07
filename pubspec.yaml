@@ -50,6 +50,7 @@ dependencies:
   dio: ^4.0.4
   validadores: ^1.0.5
   geolocator: ^8.2.0
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
