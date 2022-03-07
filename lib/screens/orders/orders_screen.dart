@@ -31,12 +31,13 @@ class OrdersScreen extends StatelessWidget {
           }
 
           return ListView.builder(
-              itemCount: ordersManager.orders.length,
-              itemBuilder: (_, index) {
-                return OrderTile(
-                  order: ordersManager.orders.reversed.toList()[index],
-                );
-              });
+            itemCount: ordersManager.orders.length,
+            itemBuilder: (_, index) {
+              return OrderTile(
+                order: ordersManager.orders.reversed.toList()[index],
+              );
+            },
+          );
         },
       ),
     );

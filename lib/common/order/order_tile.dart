@@ -70,7 +70,7 @@ class OrderTile extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: order.cancel,
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(

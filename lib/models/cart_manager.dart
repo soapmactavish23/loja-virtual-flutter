@@ -52,7 +52,7 @@ class CartManager extends ChangeNotifier {
   }
 
   void clear() {
-    for(final cartProduct in items) {
+    for (final cartProduct in items) {
       user!.cartReference.doc(cartProduct.id).delete();
     }
     items.clear();
@@ -179,7 +179,8 @@ class CartManager extends ChangeNotifier {
   }
 
   Future<bool> calculateDelivery(double lat, double long) async {
-    final DocumentSnapshot doc = await firestore.doc('aux/delivery').get();
+    final DocumentSnapshot doc =
+        await firestore.collection('aux').doc('delivery').get();
     final latStore = doc['lat'] as double;
     final longStore = doc['long'] as double;
     final base = doc['base'] as num;
