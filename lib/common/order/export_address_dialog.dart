@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 
 import 'package:loja_virtual/models/address.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ExportAddressDialog extends StatelessWidget {
@@ -35,8 +36,11 @@ class ExportAddressDialog extends StatelessWidget {
           onPressed: () async {
             try {
               final image = await screenshotController.capture();
-              final file = File.fromRawPath(image!);
+              final directory = await getApplicationDocumentsDirectory();
+              final file = await File('${directory.path}/image.png').create();
+              await file.writeAsBytes(image!);
               await GallerySaver.saveImage(file.path);
+              Navigator.pop(context);
             } catch (e) {
               debugPrint(e.toString());
             }
