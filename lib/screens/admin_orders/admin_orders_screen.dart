@@ -108,12 +108,21 @@ class AdminOrdersScreen extends StatelessWidget {
                       return CheckboxListTile(
                         title: Text(Order.getStatusText(s)),
                         dense: true,
-                        value: true,
-                        onChanged: (v) {},
+                        activeColor: Theme.of(context).primaryColor,
+                        value: ordersManager.statusFilter.contains(s),
+                        onChanged: (v) {
+                          ordersManager.statusStatusFilter(
+                            status: s,
+                            enabled: v!,
+                          );
+                        },
                       );
                     }).toList(),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 120,
+                ),
               ],
             ),
           );
