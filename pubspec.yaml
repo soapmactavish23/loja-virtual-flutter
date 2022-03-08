@@ -51,6 +51,8 @@ dependencies:
   validadores: ^1.0.5
   geolocator: ^8.2.0
   sliding_up_panel: ^2.0.0+1
+  gallery_saver: ^2.3.2
+  screenshot: ^1.2.3
 
 dev_dependencies:
   flutter_test:
