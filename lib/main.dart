@@ -85,7 +85,6 @@ class MyApp extends StatelessWidget {
               const AppBarTheme(elevation: 0, color: Color(0xff155079)),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: "/base",
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/login":
@@ -125,7 +124,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (_) => const CheckoutScreen(),
               );
-            case "/base":
+            case "/":
             default:
               return MaterialPageRoute(
                 builder: (_) => BaseScreen(),
