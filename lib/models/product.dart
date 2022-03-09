@@ -70,7 +70,7 @@ class Product extends ChangeNotifier {
   }
 
   bool get hasStock {
-    return totalStocks > 0;
+    return totalStocks > 0 && !deleted;
   }
 
   num get basePrice {
