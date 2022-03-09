@@ -22,13 +22,19 @@ class Product extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool deleted = false;
+
   ItemSize? _selectedSize = null;
 
   ItemSize? get selectedSize => _selectedSize;
 
   Product(
-      {this.id = "", this.name = "", this.description = "", images, sizes}) {
-    debugPrint(images.toString());
+      {this.id = "",
+      this.name = "",
+      this.description = "",
+      images,
+      sizes,
+      deleted = false}) {
     this.images = images ?? [];
     this.sizes = sizes ?? [];
   }
@@ -46,6 +52,7 @@ class Product extends ChangeNotifier {
     sizes = (document['sizes'] as List<dynamic>)
         .map((s) => ItemSize.fromMap(s as Map<String, dynamic>))
         .toList();
+    deleted = (document['deleted'] ?? false) as bool;
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -94,6 +101,7 @@ class Product extends ChangeNotifier {
       'name': name,
       'description': description,
       'sizes': exportSizeList(),
+      'deleted': deleted
     };
 
     if (id == "") {
@@ -135,6 +143,10 @@ class Product extends ChangeNotifier {
     loading = false;
   }
 
+  void delete() {
+    firestoreRef.update({'deleted': true});
+  }
+
   Product clone() {
     return Product(
       id: id,
@@ -142,6 +154,7 @@ class Product extends ChangeNotifier {
       description: description,
       images: List.from(images!),
       sizes: sizes!.map((size) => size.clone()).toList(),
+      deleted: deleted,
     );
   }
 

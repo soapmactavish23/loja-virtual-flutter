@@ -35,8 +35,10 @@ class ProductManager extends ChangeNotifier {
   }
 
   _loadAllProducts() async {
-    final QuerySnapshot snapProducts =
-        await firebasestore.collection('products').get();
+    final QuerySnapshot snapProducts = await firebasestore
+        .collection('products')
+        .where('deleted', isEqualTo: false)
+        .get();
 
     for (DocumentSnapshot docs in snapProducts.docs) {
       allProducts.add(Product.fromDocument(docs));
@@ -56,6 +58,12 @@ class ProductManager extends ChangeNotifier {
   void update(Product product) {
     allProducts.removeWhere((p) => p.id == product.id);
     allProducts.add(product);
+    notifyListeners();
+  }
+
+  void delete(Product product) {
+    product.delete();
+    allProducts.removeWhere((p) => p.id == product.id);
     notifyListeners();
   }
 }
