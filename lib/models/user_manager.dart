@@ -38,6 +38,8 @@ class UserManager extends ChangeNotifier {
     loading = false;
   }
 
+  void facebookLogin() {}
+
   Future<void> signUp(
       {UserModel? user, Function? onFail, Function? onSuccess}) async {
     loading = true;
@@ -75,7 +77,7 @@ class UserManager extends ChangeNotifier {
       user = UserModel.fromJson(json.encode(snapshot.data()));
 
       final docAdmin = await firestore.collection('admins').doc(user.id).get();
-      if(docAdmin.exists) {
+      if (docAdmin.exists) {
         user.admin = true;
       }
 
@@ -84,5 +86,4 @@ class UserManager extends ChangeNotifier {
   }
 
   bool get adminEnabled => user.id != "" && user.admin;
-
 }

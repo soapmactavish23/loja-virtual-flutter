@@ -144,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             )
                           : const Text(
                               "Criar Conta",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 15),
                             ),
                     ),
                   ),

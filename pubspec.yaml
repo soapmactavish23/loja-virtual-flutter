@@ -54,6 +54,7 @@ dependencies:
   gallery_saver: ^2.3.2
   screenshot: ^1.2.3
   path_provider: ^2.0.9
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
