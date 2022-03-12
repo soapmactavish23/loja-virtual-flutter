@@ -14,6 +14,17 @@ class UserManager extends ChangeNotifier {
 
   bool _loading = false;
   bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+  
+  bool _loadingFace = false;
+  bool get loadingFace => _loadingFace;
+  set loadingFace(bool value) {
+    _loadingFace = value;
+    notifyListeners();
+  }
 
   bool get isLoggedIn => user.id != "";
 
@@ -40,7 +51,7 @@ class UserManager extends ChangeNotifier {
   }
 
   void facebookLogin({Function? onFail, Function? onSuccess}) async {
-    loading = true;
+    loadingFace = true;
     final result = await FacebookAuth.instance.login();
     switch (result.status) {
       case LoginStatus.success:
@@ -57,19 +68,19 @@ class UserManager extends ChangeNotifier {
           );
 
           await user.saveData();
-          loading = false;
+          loadingFace = false;
           onSuccess!();
         }
         break;
       case LoginStatus.cancelled:
-        loading = false;
+        loadingFace = false;
         break;
       case LoginStatus.failed:
-        loading = false;
+        loadingFace = false;
         onFail!(result.message);
         break;
       case LoginStatus.operationInProgress:
-        loading = true;
+        loadingFace = true;
         break;
     }
   }
@@ -90,11 +101,6 @@ class UserManager extends ChangeNotifier {
       onFail!(getErrorString(e.code));
     }
     loading = false;
-  }
-
-  set loading(bool value) {
-    _loading = value;
-    notifyListeners();
   }
 
   void signOut() {
