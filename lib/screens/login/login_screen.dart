@@ -91,20 +91,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           : () {
                               if (formKey.currentState!.validate()) {
                                 userManager.signIn(
-                                    userModel: UserModel(
-                                        email: emailController.text,
-                                        password: passController.text),
-                                    onFail: (e) {
-                                      scaffoldKey.currentState!.showSnackBar(
-                                        SnackBar(
-                                          content: Text("Falha ao entrar $e"),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-                                    },
-                                    onSuccess: () {
-                                      Navigator.of(context).pop();
-                                    });
+                                  userModel: UserModel(
+                                      email: emailController.text,
+                                      password: passController.text),
+                                  onFail: (e) {
+                                    scaffoldKey.currentState!.showSnackBar(
+                                      SnackBar(
+                                        content: Text("Falha ao entrar $e"),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  },
+                                  onSuccess: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                );
                               }
                             },
                       color: Theme.of(context).primaryColor,
@@ -124,7 +125,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       Buttons.Facebook,
                       text: 'Entrar com Facebook',
                       onPressed: () {
-                        userManager.facebookLogin();
+                        userManager.facebookLogin(onFail: (e) {
+                          scaffoldKey.currentState!.showSnackBar(
+                            SnackBar(
+                              content: Text("Falha ao entrar $e"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }, onSuccess: () {
+                          Navigator.of(context).pop();
+                        });
                       },
                     )
                   ],
