@@ -55,6 +55,7 @@ dependencies:
   screenshot: ^1.2.3
   path_provider: ^2.0.9
   flutter_signin_button: ^2.0.0
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   flutter_test:
