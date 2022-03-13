@@ -40,7 +40,7 @@ class AdminUserManager extends ChangeNotifier {
 
   @override
   void dispose() {
-    _streamSubscription!.cancel();
+    _streamSubscription?.cancel();
     super.dispose();
   }
 }
