@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/address.dart';
 import 'package:loja_virtual/helper/extensions.dart';
 
+enum StoreStatus { closed, open, closing }
+
 class Store {
   String name = "";
   String image = "";
   String phone = "";
   Address address;
   Map<String, dynamic> opening;
+
+  StoreStatus? status;
 
   String get addressText =>
       '${address.street}, ${address.number}${address.complement != '' ? ' - ${address.complement} - ' : ''}, ${address.district}, ${address.city}/${address.state}';
@@ -29,13 +33,42 @@ class Store {
     return '${from.formatted()} - ${to.formatted()}';
   }
 
+  void updateStatus() {
+    final weekday = DateTime.now().weekday;
+
+    Map<String, TimeOfDay> period;
+    if (weekday >= 1 && weekday <= 5) {
+      period = opening['monfri'] ?? {};
+    } else if (weekday == 6) {
+      period = opening['saturday'] ?? {};
+    } else {
+      period = opening['sunday'] ?? {};
+    }
+
+    final now = TimeOfDay.now();
+
+    if (period['from'] == null && period['to'] == null) {
+      status = StoreStatus.closed;
+    } else if (period['from']!.toMinutes() < now.toMinutes() &&
+        period['to']!.toMinutes() - 15 > now.toMinutes()) {
+      status = StoreStatus.open;
+    } else if (period['from']!.toMinutes() < now.toMinutes() &&
+        period['to']!.toMinutes() > now.toMinutes()) {
+      status = StoreStatus.closing;
+    } else {
+      status = StoreStatus.closed;
+    }
+  }
+
   Store({
     required this.name,
     required this.image,
     required this.phone,
     required this.address,
     required this.opening,
-  });
+  }) {
+    updateStatus();
+  }
 
   Map<String, dynamic> toMap() {
     return {
