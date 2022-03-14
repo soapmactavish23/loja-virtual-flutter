@@ -25,6 +25,19 @@ class Store {
     return 'Seg-Sex: $monfri\nSáb: $saturday\nDom: $sunday';
   }
 
+  String get statusText {
+    switch (status) {
+      case StoreStatus.closed:
+        return 'Fechada';
+      case StoreStatus.open:
+        return 'Aberta';
+      case StoreStatus.closing:
+        return 'Fechando';
+      default:
+        return '';
+    }
+  }
+
   String formattedPeriod(Map<String, dynamic> period) {
     if (period['from'] == null && period['to'] == null) return "Fechada";
     TimeOfDay from = period['from'];
@@ -87,9 +100,9 @@ class Store {
       phone: map['phone'] ?? '',
       address: Address.fromMap(map['address']),
       opening: (map['opening'] as Map<String, dynamic>).map((key, value) {
-        final timesString = value as String;
+        final timesString = value;
 
-        if (timesString != "" && timesString.isNotEmpty) {
+        if (timesString != "" && timesString != null) {
           final splitted = timesString.split(RegExp(r"[:-]"));
           return MapEntry(
             key,
