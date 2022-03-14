@@ -9,6 +9,10 @@ class Store {
   String phone = "";
   Address address;
   Map<String, dynamic> opening;
+
+  String get addressText =>
+      '${address.street}, ${address.number}${address.complement != '' ? ' - ${address.complement} - ' : ''}, ${address.district}, ${address.city}/${address.state}';
+
   Store({
     required this.name,
     required this.image,
