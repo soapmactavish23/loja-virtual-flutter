@@ -22,6 +22,7 @@ class StoreCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -33,6 +34,11 @@ class StoreCard extends StatelessWidget {
                       ),
                       Text(
                         store.addressText,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      Text(
+                        store.openingText,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),

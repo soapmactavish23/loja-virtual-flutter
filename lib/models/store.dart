@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/address.dart';
+import 'package:loja_virtual/helper/extensions.dart';
 
 class Store {
   String name = "";
@@ -12,6 +13,21 @@ class Store {
 
   String get addressText =>
       '${address.street}, ${address.number}${address.complement != '' ? ' - ${address.complement} - ' : ''}, ${address.district}, ${address.city}/${address.state}';
+
+  String get openingText {
+    final monfri = formattedPeriod(opening['monfri'] ?? {});
+    final sunday = formattedPeriod(opening['sunday'] ?? {});
+    final saturday = formattedPeriod(opening['saturday'] ?? {});
+    return 'Seg-Sex: $monfri\nSáb: $saturday\nDom: $sunday';
+  }
+
+  String formattedPeriod(Map<String, dynamic> period) {
+    if (period['from'] == null && period['to'] == null) return "Fechada";
+    TimeOfDay from = period['from'];
+    TimeOfDay to = period['to'];
+
+    return '${from.formatted()} - ${to.formatted()}';
+  }
 
   Store({
     required this.name,

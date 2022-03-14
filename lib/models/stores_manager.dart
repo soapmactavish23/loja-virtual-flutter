@@ -15,7 +15,6 @@ class StoresManager extends ChangeNotifier {
     final snapshot = await firestore.collection('stores').get();
 
     stores = snapshot.docs.map((store) => Store.fromMap(store.data())).toList();
-    print(stores);
 
     notifyListeners();
   }
