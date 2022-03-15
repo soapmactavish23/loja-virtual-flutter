@@ -28,31 +28,37 @@ class StoreCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
-          Stack(
-            children: [
-              Image.network(store.image),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                    ),
-                  ),
-                  color: Colors.white,
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    store.statusText,
-                    style: TextStyle(
-                      color: colorForStatus(store.status!),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
-                    ),
-                  ),
+          SizedBox(
+            height: 160,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.network(
+                  store.image,
+                  fit: BoxFit.cover,
                 ),
-              )
-            ],
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      store.statusText,
+                      style: TextStyle(
+                        color: colorForStatus(store.status!),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           Container(
             height: 140,
