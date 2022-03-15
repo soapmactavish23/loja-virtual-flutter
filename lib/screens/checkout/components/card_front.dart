@@ -36,17 +36,30 @@ class CardFront extends StatelessWidget {
                     FilteringTextInputFormatter.digitsOnly,
                     CartaoBancarioInputFormatter(),
                   ],
+                  validator: (number) {
+                    if (number!.length != 19) return 'Inválido';
+                    return null;
+                  },
                 ),
                 CardTextField(
                   title: 'Validade',
                   hint: 'XX/XXXX',
                   textInputType: TextInputType.number,
                   inputFormatters: [dateFormatter],
+                  validator: (date) {
+                    if (date!.length != 7) return 'Inválido';
+                    return null;
+                  },
                 ),
                 CardTextField(
                   title: 'Titular',
                   hint: 'Digite seu nome',
-                  inputFormatters: [],
+                  inputFormatters: const [],
+                  bold: true,
+                  validator: (name) {
+                    if (name!.isEmpty) return 'Inválido';
+                    return null;
+                  },
                 ),
               ],
             ),

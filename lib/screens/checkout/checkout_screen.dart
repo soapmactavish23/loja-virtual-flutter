@@ -12,6 +12,7 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       create: (_) => CheckoutManager(),
@@ -49,29 +50,35 @@ class CheckoutScreen extends StatelessWidget {
                 ),
               );
             }
-            return ListView(
-              children: [
-                CreditCardWidget(),
-                PriceCard(
-                  buttonText: 'Finalizar Pedido',
-                  onPressed: () {
-                    checkoutManager.checkout(onStockFail: (e) {
-                      Navigator.of(context).popUntil(
-                        (route) => route.settings.name == '/cart',
-                      );
-                    }, onSuccess: (order) {
-                      Navigator.of(context).popUntil(
-                        (route) => route.settings.name == '/',
-                      );
-                      Navigator.pushNamed(
-                        context,
-                        '/confirmation',
-                        arguments: order,
-                      );
-                    });
-                  },
-                )
-              ],
+            return Form(
+              key: formKey,
+              child: ListView(
+                children: [
+                  CreditCardWidget(),
+                  PriceCard(
+                    buttonText: 'Finalizar Pedido',
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        print('Enviar');
+                        // checkoutManager.checkout(onStockFail: (e) {
+                        //   Navigator.of(context).popUntil(
+                        //     (route) => route.settings.name == '/cart',
+                        //   );
+                        // }, onSuccess: (order) {
+                        //   Navigator.of(context).popUntil(
+                        //     (route) => route.settings.name == '/',
+                        //   );
+                        //   Navigator.pushNamed(
+                        //     context,
+                        //     '/confirmation',
+                        //     arguments: order,
+                        //   );
+                        // });
+                      }
+                    },
+                  )
+                ],
+              ),
             );
           },
         ),
