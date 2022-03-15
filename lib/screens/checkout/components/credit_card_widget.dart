@@ -20,7 +20,7 @@ class CreditCardWidget extends StatelessWidget {
             direction: FlipDirection.HORIZONTAL,
             speed: 700,
             flipOnTouch: false,
-            front: const CardFront(),
+            front: CardFront(),
             back: const CardBack(),
           ),
           TextButton(

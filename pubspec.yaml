@@ -60,6 +60,7 @@ dependencies:
   map_launcher: ^2.2.1+1
   flutter_svg: ^1.0.3
   flip_card: ^0.6.0
+  mask_text_input_formatter: ^2.1.0
 
 
 dev_dependencies:
