@@ -111,8 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 formKey.currentState!.save();
 
                                 if (user.password != user.confirmPassword) {
-                                  // ignore: deprecated_member_use
-                                  scaffoldKey.currentState!.showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text("Senhas não coincidem!"),
                                       backgroundColor: Colors.red,
@@ -127,8 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Navigator.of(context).pop();
                                   },
                                   onFail: (e) {
-                                    // ignore: deprecated_member_use
-                                    scaffoldKey.currentState!.showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("Falha ao cadastrar: $e"),
                                         backgroundColor: Colors.red,

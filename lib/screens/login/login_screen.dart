@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       email: emailController.text,
                                       password: passController.text),
                                   onFail: (e) {
-                                    scaffoldKey.currentState!.showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("Falha ao entrar $e"),
                                         backgroundColor: Colors.red,
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Entrar com Facebook',
                       onPressed: () {
                         userManager.facebookLogin(onFail: (e) {
-                          scaffoldKey.currentState!.showSnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Falha ao entrar $e"),
                               backgroundColor: Colors.red,
