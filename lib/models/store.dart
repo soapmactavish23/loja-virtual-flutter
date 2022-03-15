@@ -25,6 +25,8 @@ class Store {
     return 'Seg-Sex: $monfri\nSáb: $saturday\nDom: $sunday';
   }
 
+  String get cleanPhone => phone.replaceAll(RegExp(r"[^\d]"), "");
+
   String get statusText {
     switch (status) {
       case StoreStatus.closed:
