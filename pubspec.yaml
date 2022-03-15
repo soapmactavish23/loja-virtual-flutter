@@ -59,6 +59,8 @@ dependencies:
   url_launcher: ^6.0.20
   map_launcher: ^2.2.1+1
   flutter_svg: ^1.0.3
+  flip_card: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:
