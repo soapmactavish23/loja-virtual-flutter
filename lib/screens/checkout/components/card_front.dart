@@ -6,7 +6,18 @@ import 'package:loja_virtual/screens/checkout/components/card_text_field.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
-  CardFront({Key? key}) : super(key: key);
+  CardFront({
+    Key? key,
+    required this.numberFocus,
+    required this.dateFocus,
+    required this.nameFocus,
+    required this.finished,
+  }) : super(key: key);
+
+  final FocusNode numberFocus;
+  final FocusNode dateFocus;
+  final FocusNode nameFocus;
+  final Function() finished;
 
   final dateFormatter = MaskTextInputFormatter(
       mask: '!#/####', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]')});
@@ -45,6 +56,10 @@ class CardFront extends StatelessWidget {
                     }
                     return null;
                   },
+                  onSubmitted: (_) {
+                    dateFocus.requestFocus();
+                  },
+                  focusNode: numberFocus,
                 ),
                 CardTextField(
                   title: 'Validade',
@@ -55,6 +70,10 @@ class CardFront extends StatelessWidget {
                     if (date!.length != 7) return 'Inválido';
                     return null;
                   },
+                  onSubmitted: (_) {
+                    nameFocus.requestFocus();
+                  },
+                  focusNode: dateFocus,
                 ),
                 CardTextField(
                   title: 'Titular',
@@ -64,6 +83,10 @@ class CardFront extends StatelessWidget {
                   validator: (name) {
                     if (name!.isEmpty) return 'Inválido';
                     return null;
+                  },
+                  focusNode: nameFocus,
+                  onSubmitted: (_) {
+                    finished();
                   },
                 ),
               ],
