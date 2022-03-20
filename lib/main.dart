@@ -30,6 +30,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  runApp(const MyApp());
+
   try {
     final response =
         await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
@@ -37,8 +39,6 @@ void main() async {
   } catch (e) {
     print(e.toString());
   }
-
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
