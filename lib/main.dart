@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:loja_virtual/models/admin_orders_manager.dart';
@@ -23,9 +24,19 @@ import 'package:loja_virtual/screens/signup/signup_screen.dart';
 
 import 'package:provider/provider.dart';
 
+import 'helper/firebase_errors.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  try {
+    final response =
+        await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
+    print(response);
+  } catch (e) {
+    print(e.toString());
+  }
 
   runApp(const MyApp());
 }
