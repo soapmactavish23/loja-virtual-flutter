@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -18,7 +19,7 @@ class UserManager extends ChangeNotifier {
     _loading = value;
     notifyListeners();
   }
-  
+
   bool _loadingFace = false;
   bool get loadingFace => _loadingFace;
   set loadingFace(bool value) {
@@ -120,9 +121,16 @@ class UserManager extends ChangeNotifier {
       if (docAdmin.exists) {
         user.admin = true;
       }
+      functionsFirebase();
 
       notifyListeners();
     }
+  }
+
+  Future<void> functionsFirebase() async {
+    final response =
+        await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
+    print(response.data);
   }
 
   bool get adminEnabled => user.id != "" && user.admin;

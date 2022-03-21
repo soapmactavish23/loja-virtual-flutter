@@ -24,21 +24,11 @@ import 'package:loja_virtual/screens/signup/signup_screen.dart';
 
 import 'package:provider/provider.dart';
 
-import 'helper/firebase_errors.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(const MyApp());
-
-  try {
-    final response =
-        await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
-    print(response);
-  } catch (e) {
-    print(e.toString());
-  }
 }
 
 class MyApp extends StatelessWidget {
