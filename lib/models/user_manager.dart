@@ -128,9 +128,13 @@ class UserManager extends ChangeNotifier {
   }
 
   Future<void> functionsFirebase() async {
-    final response =
-        await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
-    print(response.data);
+    try {
+      final response =
+          await FirebaseFunctions.instance.httpsCallable('getUserData').call();
+      print(response.data);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   bool get adminEnabled => user.id != "" && user.admin;
