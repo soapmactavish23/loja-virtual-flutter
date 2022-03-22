@@ -18,3 +18,8 @@ exports.getUserData = functions.https.onCall((data, context) => {
   }
   return admin.firestore().collection("users").doc(context.auth.uid).get().then((snapshot) => snapshot.data());
 });
+
+exports.onNewOrder = functions.firestore.document("/orders/{orderId}").onCreate((snapshot, context) => {
+  const orderId = context.params.orderId;
+  console.log(orderId);
+});
