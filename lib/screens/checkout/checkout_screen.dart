@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/common/price_card.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/checkout_manager.dart';
+import 'package:loja_virtual/models/credit_card.dart';
 import 'package:loja_virtual/models/page_manager.dart';
 import 'package:loja_virtual/screens/checkout/components/cpf_field.dart';
 import 'package:loja_virtual/screens/checkout/components/credit_card_widget.dart';
@@ -14,6 +15,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final CreditCard creditCard = CreditCard();
 
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       create: (_) => CheckoutManager(),
@@ -55,28 +57,31 @@ class CheckoutScreen extends StatelessWidget {
               key: formKey,
               child: ListView(
                 children: [
-                  CreditCardWidget(),
-                  CpfField(),
+                  CreditCardWidget(creditCard: creditCard),
+                  const CpfField(),
                   PriceCard(
                     buttonText: 'Finalizar Pedido',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        print('Enviar');
-                        // checkoutManager.checkout(onStockFail: (e) {
-                        //   Navigator.of(context).popUntil(
-                        //     (route) => route.settings.name == '/cart',
-                        //   );
-                        // }, onSuccess: (order) {
-                        //   Navigator.of(context).popUntil(
-                        //     (route) => route.settings.name == '/',
-                        //   );
-                        //   Navigator.pushNamed(
-                        //     context,
-                        //     '/confirmation',
-                        //     arguments: order,
-                        //   );
-                        // });
+
+                        checkoutManager.checkout(
+                            creditCard: creditCard,
+                            onStockFail: (e) {
+                              Navigator.of(context).popUntil(
+                                (route) => route.settings.name == '/cart',
+                              );
+                            },
+                            onSuccess: (order) {
+                              Navigator.of(context).popUntil(
+                                (route) => route.settings.name == '/',
+                              );
+                              Navigator.pushNamed(
+                                context,
+                                '/confirmation',
+                                arguments: order,
+                              );
+                            });
                       }
                     },
                   )
