@@ -7,6 +7,7 @@ class UserModel {
   String id;
   String name;
   String email;
+  String cpf;
   String password;
   String confirmPassword = "";
 
@@ -15,7 +16,11 @@ class UserModel {
   Address? address;
 
   UserModel(
-      {this.id = "", this.email = "", this.password = "", this.name = ""});
+      {this.id = "",
+      this.email = "",
+      this.password = "",
+      this.name = "",
+      this.cpf = ""});
 
   DocumentReference get firestoreRef =>
       FirebaseFirestore.instance.collection('users').doc(id);
@@ -30,7 +35,7 @@ class UserModel {
     id = document.id;
     name = document['name'] as String;
     email = document['email'] as String;
-    if(document['address'] != null) {
+    if (document['address'] != null) {
       address = Address.fromJson(json.encode(document['address']));
     }
   }
@@ -40,13 +45,18 @@ class UserModel {
     saveData();
   }
 
+  void setCpf(String cpf) {
+    this.cpf = cpf;
+    saveData();
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'email': email,
-      if(address != null)
-        'address': address!.toMap(),
+      if (cpf != '') 'cpf': cpf,
+      if (address != null) 'address': address!.toMap(),
     };
   }
 
@@ -56,7 +66,10 @@ class UserModel {
       name: map['name'] as String,
       email: map['email'] as String,
     );
-    if(map['address'] != null) {
+    if (map['cpf'] != null) {
+      u.cpf = map['cpf'] as String;
+    }
+    if (map['address'] != null) {
       u.address = Address.fromJson(json.encode(map['address']));
     }
     return u;
