@@ -131,7 +131,6 @@ class UserManager extends ChangeNotifier {
     try {
       final response =
           await FirebaseFunctions.instance.httpsCallable('getUserData').call();
-      print(response.data);
     } catch (e) {
       debugPrint(e.toString());
     }
