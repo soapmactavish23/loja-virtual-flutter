@@ -22,7 +22,11 @@ class CreditCard {
   void setCVV(String? cvv) => secutiryCode = cvv!;
   void setNumber(String? number) {
     this.number = number!;
-    brand = detectCCType(number.replaceAll(' ', '')).toString();
+    brand = detectCCType(number.replaceAll(' ', ''))
+        .toString()
+        .toUpperCase()
+        .split(".")
+        .last;
   }
 
   @override
