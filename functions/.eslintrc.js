@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"] */
 module.exports = {
   root: true,
   env: {
@@ -19,6 +20,7 @@ module.exports = {
   },
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
+    "/src/**",
   ],
   plugins: [
     "@typescript-eslint",
