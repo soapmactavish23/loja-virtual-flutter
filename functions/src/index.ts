@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { CieloConstructor, Cielo, EnumBrands } from "cielo";
+import { CieloConstructor, Cielo, EnumBrands, TransactionCreditCardRequestModel } from "cielo";
+import { user } from "firebase-functions/v1/auth";
 
 admin.initializeApp();
 
@@ -40,30 +41,30 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
   const userId = context.auth.uid;
 
   const snapshot = await admin.firestore().collection("users").doc(userId).get();
-  const userData = snapshot.data();
+  const userData = snapshot.data() || {};
 
   console.log("Iniciando Autorização");
 
   let brand: EnumBrands;
-  switch(data.creditCard.brand) {
+  switch (data.creditCard.brand) {
     case "VISA":
       brand = EnumBrands.VISA;
-      break;    
+      break;
     case "MASTER":
       brand = EnumBrands.MASTER;
-      break;    
+      break;
     case "AMEX":
       brand = EnumBrands.AMEX;
-      break;    
+      break;
     case "ELO":
       brand = EnumBrands.ELO;
-      break;    
+      break;
     case "JCB":
       brand = EnumBrands.JCB;
-      break;    
+      break;
     case "DINERS":
       brand = EnumBrands.DINERS;
-      break;    
+      break;
     case "DISCOVERY":
       brand = EnumBrands.DISCOVERY;
       break;
@@ -79,6 +80,45 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
         },
       }
   }
+
+  const saleDate: TransactionCreditCardRequestModel = {
+    merchantOrderId: data.merchantOrderId,
+    customer: {
+      name: userData.name,
+      identity: data.cpf,
+      identityType: "CPF",
+      email: userData.email,
+      deliveryAddress: {
+        street: userData.address.street,
+        number: userData.address.number,
+        complement: userData.address.complement,
+        zipCode: userData.address.zipCode.replace(".", "").replace("-", ""),
+        city: userData.address.city,
+        state: userData.address.state,
+        country: "BRA",
+        district: userData.address.district,
+      },
+    },
+    payment: {
+      currency: "BRL",
+      country: "BRL",
+      amount: data.amount,
+      installments: data.installments,
+      softDescriptor: data.softDescriptor,
+      type: data.paymentType,
+      capture: false,
+      creditCard: {
+        cardNumber: data.creditCard.cardNumber,
+        holder: data.creditCard.holder,
+        expirationDate: data.creditCard.expirationDate,
+        securityCode: data.creditCard.securityCode,
+        brand: brand,
+      },
+    },
+  };
+
+  const transaction = await cielo.creditCard.transaction(saleDate);
+
 });
 
 // Start writing Firebase Functions
