@@ -121,7 +121,7 @@ class UserManager extends ChangeNotifier {
       if (docAdmin.exists) {
         user.admin = true;
       }
-      functionsFirebase();
+      // functionsFirebase();
 
       notifyListeners();
     }
@@ -130,7 +130,8 @@ class UserManager extends ChangeNotifier {
   Future<void> functionsFirebase() async {
     try {
       final response =
-          await FirebaseFunctions.instance.httpsCallable('getUserData').call();
+          await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
+      print(response);
     } catch (e) {
       debugPrint(e.toString());
     }

@@ -16,14 +16,12 @@ class CieloPayment {
       'softDescriptor': 'Loja da SH',
       'installments': 1,
       'creditCard': creditCard.toMap(),
-      'cpf': user.cpf,
+      'cpf': user.cpf.replaceAll(".", "").replaceAll("-", ""),
       'paymentType': 'CreditCard',
     };
+    final response =
+        await functions.httpsCallable('authorizeCreditCard').call(dateSale);
 
-    final HttpsCallable callable =
-        functions.httpsCallable('authorizeCreditCard');
-
-    final response = await callable.call(dateSale);
-    print(response.data);
+    final data = Map<String, dynamic>.from(response.data);
   }
 }

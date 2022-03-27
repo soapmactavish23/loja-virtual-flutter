@@ -6,20 +6,20 @@ class CreditCard {
   String number = "";
   String holder = "";
   String expirationDate = "";
-  String secutiryCode = "";
+  String securityCode = "";
   String brand = "";
 
   CreditCard({
     this.number = "",
     this.holder = "",
     this.expirationDate = "",
-    this.secutiryCode = "",
+    this.securityCode = "",
     this.brand = "",
   });
 
   void setHolder(String? name) => holder = name!;
   void setExpirationDate(String? date) => expirationDate = date!;
-  void setCVV(String? cvv) => secutiryCode = cvv!;
+  void setCVV(String? cvv) => securityCode = cvv!;
   void setNumber(String? number) {
     this.number = number!;
     brand = detectCCType(number.replaceAll(' ', ''))
@@ -31,7 +31,7 @@ class CreditCard {
 
   @override
   String toString() {
-    return 'CreditCard(number: $number, holder: $holder, expirationDate: $expirationDate, secutiryCode: $secutiryCode, brand: $brand)';
+    return 'CreditCard(number: $number, holder: $holder, expirationDate: $expirationDate, securityCode: $securityCode, brand: $brand)';
   }
 
   Map<String, dynamic> toMap() {
@@ -39,7 +39,7 @@ class CreditCard {
       'cardNumber': number.replaceAll(' ', ''),
       'holder': holder,
       'expirationDate': expirationDate,
-      'secutiryCode': secutiryCode,
+      'securityCode': securityCode,
       'brand': brand,
     };
   }
@@ -49,7 +49,7 @@ class CreditCard {
       number: map['number'] ?? '',
       holder: map['holder'] ?? '',
       expirationDate: map['expirationDate'] ?? '',
-      secutiryCode: map['secutiryCode'] ?? '',
+      securityCode: map['securityCode'] ?? '',
       brand: map['brand'] ?? '',
     );
   }
