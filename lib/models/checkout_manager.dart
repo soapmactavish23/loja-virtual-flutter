@@ -47,13 +47,13 @@ class CheckoutManager extends ChangeNotifier {
       return;
     }
 
-    // try {
-    //   await _decrementStock();
-    // } catch (e) {
-    //   onStockFail!(e);
-    //   loading = false;
-    //   return;
-    // }
+    try {
+      await _decrementStock();
+    } catch (e) {
+      onStockFail!(e);
+      loading = false;
+      return;
+    }
 
     // final order = Order.fromCartManager(cartManager!);
     // order.orderId = orderId.toString();
