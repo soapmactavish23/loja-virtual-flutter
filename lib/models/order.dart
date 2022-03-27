@@ -27,6 +27,8 @@ class Order {
     address = Address.fromMap(doc['address'] as Map<String, dynamic>);
     date = doc['date'] as Timestamp;
     status = Status.values[doc['status'] as int];
+
+    payId = doc['payId'] as String;
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -43,6 +45,7 @@ class Order {
       'items': items.map((e) => e.toOrderItemMap()).toList(),
       'price': price,
       'user': userId,
+      'payId': payId,
       'address': address.toMap(),
       'status': status.index,
       'date': Timestamp.now(),
@@ -73,6 +76,7 @@ class Order {
   }
 
   String orderId = '';
+  String payId = '';
   List<CartProduct> items = [];
   num price = 0.0;
   String userId = '';

@@ -44,9 +44,16 @@ class CieloPayment {
       'payId': payId,
     };
 
-    final HttpsCallable callable = functions.httpsCallable('captureData');
+    final HttpsCallable callable = functions.httpsCallable('captureCreditCard');
 
     final response = await callable.call(captureData);
-    print(response.data);
+
+    final data = Map<String, dynamic>.from(response.data as LinkedHashMap);
+
+    if (data['success'] as bool) {
+      return;
+    } else {
+      return Future.error(data['error']['message']);
+    }
   }
 }
