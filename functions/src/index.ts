@@ -133,7 +133,7 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
           message = "Cartão expirado";
           break;
         case "78":
-          message = "Cartão bloquado";
+          message = "Cartão bloqueado";
           break;
         case "99":
           message = "Timeout";
@@ -158,10 +158,12 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
       };
     }
   } catch (error) {
-    console.log("Error: " + error);
     return {
       "success": false,
-      "error":  JSON.stringify(error),
+      "error": {
+        "code": error,
+        "message": error,
+      },
     };
   }
 
