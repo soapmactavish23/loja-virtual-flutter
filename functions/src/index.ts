@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { CieloConstructor, Cielo, EnumBrands, TransactionCreditCardRequestModel, CaptureRequestModel } from "cielo";
+import { CieloConstructor, Cielo, EnumBrands, TransactionCreditCardRequestModel, CaptureRequestModel, CancelTransactionRequestModel } from "cielo";
 
 admin.initializeApp();
 
@@ -206,6 +206,58 @@ export const captureCreditCard = functions.https.onCall(async (data, context) =>
         "error": {
           "code": capture.returnCode,
           "message": capture.returnMessage,
+        },
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      "success": false,
+      "error": {
+        "code": error,
+        "message": error,
+      },
+    };
+  }
+});
+
+export const cancelCreditCard = functions.https.onCall(async (data, context) => {
+  if (data === null) {
+    return {
+      "success": false,
+      "error": {
+        "code": -1,
+        "message": "Dados não informados",
+      },
+    };
+  }
+
+  if (!context.auth) {
+    return {
+      "success": false,
+      "error": {
+        "code": -1,
+        "message": "Nenhum usuário logado",
+      },
+    };
+  }
+
+  const cancelParams: CancelTransactionRequestModel = {
+    paymentId: data.payId,
+  };
+
+  const cancel = await cielo.creditCard.cancelTransaction(cancelParams);
+
+  try {
+    if (cancel.status === 10 || cancel.status === 11) {
+      return { "success": true };
+    } else {
+      return {
+        "success": false,
+        "status": cancel.status,
+        "error": {
+          "code": cancel.returnCode,
+          "message": cancel.returnMessage,
         },
       };
     }
