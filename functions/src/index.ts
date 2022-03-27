@@ -4,8 +4,8 @@ import { CieloConstructor, Cielo, EnumBrands, TransactionCreditCardRequestModel 
 
 admin.initializeApp();
 
-const merchantId = functions.config().cielo.merchantId;
-const merchantKey = functions.config().cielo.merchantKey;
+const merchantId = functions.config().cielo.merchantid;
+const merchantKey = functions.config().cielo.merchantkey;
 
 const cieloParams: CieloConstructor = {
   merchantId: merchantId,
@@ -49,7 +49,7 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
     case "VISA":
       brand = EnumBrands.VISA;
       break;
-    case "MASTER":
+    case "MASTERCARD":
       brand = EnumBrands.MASTER;
       break;
     case "AMEX":
@@ -75,7 +75,7 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
         "success": false,
         "error": {
           "code": -1,
-          "message": "Cartão não suportado " + data.creditCard.brand
+          "message": "Cartão não suportado " + data.creditCard.brand,
         },
       }
   }
@@ -84,7 +84,7 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
     merchantOrderId: data.merchantOrderId,
     customer: {
       name: userData.name,
-      identity: data.cpf,
+      identity: data.cpf.replace(".", "").replace("-", ""),
       identityType: "CPF",
       email: userData.email,
       deliveryAddress: {
@@ -100,10 +100,10 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
     },
     payment: {
       currency: "BRL",
-      country: "BRL",
+      country: "BRA",
       amount: data.amount,
       installments: data.installments,
-      softDescriptor: data.softDescriptor,
+      softDescriptor: data.softDescriptor.substring(0, 13),
       type: data.paymentType,
       capture: false,
       creditCard: {
@@ -118,7 +118,6 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
 
   try {
     const transaction = await cielo.creditCard.transaction(saleDate);
-
     if (transaction.payment.status === 1) {
       return {
         "success": true,
@@ -158,13 +157,11 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
         },
       };
     }
-  } catch (e) {
+  } catch (error) {
+    console.log("Error: " + error);
     return {
       "success": false,
-      "error": {
-        "code": e,
-        "message": e,
-      },
+      "error":  JSON.stringify(error),
     };
   }
 
@@ -173,7 +170,7 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 
-export const helloWorld = functions.https.onRequest((request, response) => {
+export const helloWorld = functions.https.onCall((data, context) => {
   functions.logger.info("Hello logs!", { structuredData: true });
-  response.send("Hello from Firebase!");
+  return { "data": context };
 });
