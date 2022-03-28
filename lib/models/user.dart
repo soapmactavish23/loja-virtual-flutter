@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:loja_virtual/models/address.dart';
 
 class UserModel {
@@ -27,6 +29,8 @@ class UserModel {
 
   CollectionReference get cartReference => firestoreRef.collection("cart");
 
+  CollectionReference get tokensReference => firestoreRef.collection("token");
+
   Future<void> saveData() async {
     await firestoreRef.set(toMap());
   }
@@ -48,6 +52,16 @@ class UserModel {
   void setCpf(String cpf) {
     this.cpf = cpf;
     saveData();
+  }
+
+  Future<void> saveToken() async {
+    final messaging = FirebaseMessaging.instance;
+    final token = await messaging.getToken();
+    await tokensReference.doc(token).set({
+      'token': token,
+      'updatedAt': FieldValue.serverTimestamp(),
+      'platform': Platform.operatingSystem,
+    });
   }
 
   Map<String, dynamic> toMap() {

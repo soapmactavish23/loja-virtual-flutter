@@ -69,6 +69,7 @@ class UserManager extends ChangeNotifier {
           );
 
           await user.saveData();
+
           loadingFace = false;
           onSuccess!();
         }
@@ -116,6 +117,8 @@ class UserManager extends ChangeNotifier {
       final DocumentSnapshot snapshot =
           await firestore.collection('users').doc(currentUser.uid).get();
       user = UserModel.fromJson(json.encode(snapshot.data()));
+
+      user.saveToken();
 
       final docAdmin = await firestore.collection('admins').doc(user.id).get();
       if (docAdmin.exists) {
