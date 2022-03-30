@@ -1,16 +1,78 @@
-# loja_virtual
+<h1 align="center">
+   <img src="printscreen/home.PNG" width="200">
+</h1>
 
-A new Flutter project.
+<h4 align="center"> 
+	🚧 Loja da Software House 🚀 Concluido...  🚧
+</h4>
 
-## Getting Started
+## ✅ Funções
 
-This project is a starting point for a Flutter application.
+- <h3>Gerenciamento de Usuários:</h3>
+  
+  - [x] Login
+  - [x] Login com facebook
+  - [x] Cadastro
+  - [x] Listar usuários
+  - [x] Pesquisar usuários
+  - [x] Recuperar Senha
 
-A few resources to get you started if this is your first Flutter project:
+- <h3>Home</h3>
+  
+  - [x] Menu
+  - [x] Menu: Edição
+  - [x] Home: Edição
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- <h3>Produtos</h3>
+  
+  - [x] Lista de produtos
+  - [x] Detalhes do produto
+  - [x] Formulário de produto
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- <h3>Pedidos</h3>
+  
+  - [x] Meus pedidos
+  - [x] Lojas
+  - [x] Lista de Pedidos gerais
+
+## 📚 Descrição
+  
+  - Loja vitual com pagamento, login com rede social, notificações e etc...
+
+## 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" height="20" width="20"/> [Flutter](https://flutter.dev/?gclid=Cj0KCQjwkbuKBhDRARIsAALysV4sMSKWcOxrlBmdtlCcf3MAfNdH1ehbbWi6ZjjjdypPLsSvdTFiqOYaAon3EALw_wcB&gclsrc=aw.ds)
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" height="20" width="20"/> [Dart](https://dart.dev/)
+
+## 📱 Plataforma adotada
+
+  - Android;
+  - iOS;
+
+## 📸 Screenshot
+
+<p float="left">
+	<img src="printscreen/login.PNG" width="200">
+	<img src="printscreen/cadastro.PNG" width="200">
+	<img src="printscreen/home_edicao.PNG" width="200">
+</p>
+
+<p float="left">
+	<img src="printscreen/menu_adm.PNG" width="200">
+	<img src="printscreen/home_edicao.PNG" width="200">
+	<img src="printscreen/lista_produtos.PNG" width="200">
+</p>
+
+<p float="left">
+	<img src="printscreen/detalhes_produto.PNG" width="200">
+	<img src="printscreen/produto_editar.PNG" width="200">
+	<img src="printscreen/meus_pedidos.PNG" width="200">
+</p>
+
+<p float="left">
+	<img src="printscreen/lojas.PNG" width="200">
+	<img src="printscreen/usuarios.PNG" width="200">
+	<img src="printscreen/pedidos.PNG" width="200">
+</p>

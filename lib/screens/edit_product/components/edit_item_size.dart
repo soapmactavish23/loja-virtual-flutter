@@ -72,12 +72,6 @@ class EditItemSize extends StatelessWidget {
               prefixText: 'R\$',
             ),
             keyboardType: TextInputType.number,
-            // inputFormatters: [
-            //   FilteringTextInputFormatter.digitsOnly,
-            //   RealInputFormatter(
-            //     moeda: false,
-            //   )
-            // ],
             validator: (price) {
               if (num.tryParse(price!) == null || num.tryParse(price) == 0) {
                 return 'Inválido';
@@ -85,10 +79,14 @@ class EditItemSize extends StatelessWidget {
               return null;
             },
             onChanged: (price) {
-              if (price.isNotEmpty) {
-                size.price = num.parse(price);
-              } else {
-                size.price = 0;
+              try {
+                if (price.isNotEmpty) {
+                  size.price = num.parse(price);
+                } else {
+                  size.price = 0;
+                }
+              } catch (e) {
+                debugPrint(e.toString());
               }
             },
           ),
