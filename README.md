@@ -76,3 +76,15 @@ As seguintes ferramentas foram usadas na construção do projeto:
 	<img src="printscreen/usuarios.PNG" width="200">
 	<img src="printscreen/pedidos.PNG" width="200">
 </p>
+
+<p float="left">
+	<img src="printscreen/carrinho_quantidade.PNG" width="200">
+	<img src="printscreen/carrinho_frete.PNG" width="200">
+	<img src="printscreen/carrinho_frete_2.PNG" width="200">
+</p>
+
+<p float="left">
+	<img src="printscreen/carrinho_pagamento_1.PNG" width="200">
+	<img src="printscreen/carrinho_pagamento_2.PNG" width="200">
+	<img src="printscreen/pedido_confirmado.PNG" width="200">
+</p>
