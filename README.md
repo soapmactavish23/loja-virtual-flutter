@@ -37,7 +37,7 @@
 
 ## 📚 Descrição
   
-  - Loja vitual com pagamento, login com rede social, notificações e etc...
+  - Há algum tempo, embarquei em um desafio de desenvolvimento ao criar um aplicativo inovador utilizando o framework Flutter. Este aplicativo para uma loja virtual foi cuidadosamente projetado e implementado para oferecer aos usuários uma experiência intuitiva e eficiente. Integrei com sucesso um sistema de pagamento por cartão, permitindo transações seguras e rápidas. Além disso, implementei a autenticação por meio do Facebook, simplificando o processo de login para os usuários. O aplicativo também incluiu recursos robustos de gerenciamento, permitindo aos administradores controlar facilmente produtos, lojas e usuários. Durante esse projeto, aprimorei minhas habilidades em Flutter, gerenciamento de estado, integração de API e design de interfaces amigáveis, aprendendo valiosas lições sobre eficiência no desenvolvimento de aplicativos móveis e a importância da usabilidade para o sucesso do produto.
 
 ## 🛠 Tecnologias
 
